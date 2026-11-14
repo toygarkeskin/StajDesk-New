@@ -1,0 +1,1291 @@
+{
+  "source": "Örnek (anonimleştirilmiş) organizasyon: merkez birim ve unvan adları geneldir; mağaza ve bölge adları kurgusaldır. Gerçek veri için Seed:OrganizationFile kullanılır.",
+  "departments": [
+    {
+      "name": "Merkez Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Adana Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Adana Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Adana Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Adana Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Adana Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Sakarya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Sakarya Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Adıyaman Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Adıyaman Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Afyonkarahisar Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Aile Ofisi Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Merkez Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Alan Yöneticiliği 01",
+      "type": "Region"
+    },
+    {
+      "name": "Alan Yöneticiliği 02",
+      "type": "Region"
+    },
+    {
+      "name": "Alan Yöneticiliği 03",
+      "type": "Region"
+    },
+    {
+      "name": "Alan Yöneticiliği 04",
+      "type": "Region"
+    },
+    {
+      "name": "Alanya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Amasya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Amasya Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 08",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 09",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 10",
+      "type": "Store"
+    },
+    {
+      "name": "Hatay Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Aydın Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "Balıkesir Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Balıkesir Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Bartın Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Batman Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Bilgi Teknolojileri ve Dijital Dönüşüm Direktörlüğü",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Bingöl Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Bolu Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Ankara Mağaza 11",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Bolu Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 08",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 09",
+      "type": "Store"
+    },
+    {
+      "name": "Afyonkarahisar Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 10",
+      "type": "Store"
+    },
+    {
+      "name": "Manisa Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Muğla Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kütahya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Van Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Bölge Yöneticiliği 01",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 02",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 03",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 04",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 05",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 06",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 07",
+      "type": "Region"
+    },
+    {
+      "name": "Bölge Yöneticiliği 08",
+      "type": "Region"
+    },
+    {
+      "name": "Burdur Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Burdur Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "Buyer",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Denizli Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Denizli Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Düzce Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Edirne Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Elazığ Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Erzincan Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Erzincan Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Erzurum Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Erzurum Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Erzurum Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Eskişehir Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Finans Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Franchise Yatırım ve Geliştirme Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Gaziantep Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Gaziantep Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Gaziantep Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Gaziantep Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Kocaeli Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 11",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 12",
+      "type": "Store"
+    },
+    {
+      "name": "Diyarbakır Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 13",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 14",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 15",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 16",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 17",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 18",
+      "type": "Store"
+    },
+    {
+      "name": "Genel Müdür / CEO",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Genel Müdürlük Mağaza",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Giresun Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Hatay Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Hatay Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Hatay Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Iğdır Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Isparta Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Isparta Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "İdari İşler",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "İnsan Kaynakları ve İdari İşler Direktörlüğü",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Hatay Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 08",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 09",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 10",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 11",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 12",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 13",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 14",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 15",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 16",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 17",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 18",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 19",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 20",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 21",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 22",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 23",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 24",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 25",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 26",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 27",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 28",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 29",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 30",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 31",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 32",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 33",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 07",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 08",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 09",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 10",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 11",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 12",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 13",
+      "type": "Store"
+    },
+    {
+      "name": "Kocaeli Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Kocaeli Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Kahramanmaraş Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 34",
+      "type": "Store"
+    },
+    {
+      "name": "Kahramanmaraş Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Karabük Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Karaman Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kars Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kastamonu Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kastamonu Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Kategori Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Kayseri Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kayseri Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Kayseri Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Kayseri Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Kırıkkale Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kırklareli Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kırklareli Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Kilis Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Kiralama Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Konya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Konya Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Konya Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Konya Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Kurumsal Satış ve Zincir Mağazalar Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Kütahya Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Kütahya Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Lojistik",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Malatya Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Mali İşler",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "İstanbul Mağaza 35",
+      "type": "Store"
+    },
+    {
+      "name": "Manisa Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Manisa Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Mardin Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Mardin Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 19",
+      "type": "Store"
+    },
+    {
+      "name": "Mersin Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Mersin Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Mersin Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Mersin Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Muğla Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Muğla Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Muğla Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Muhasebe Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Muş Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Muş Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Nevşehir Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Nevşehir Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Niğde Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 20",
+      "type": "Store"
+    },
+    {
+      "name": "Ordu Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Ordu Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Ordu Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Osmaniye Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 21",
+      "type": "Store"
+    },
+    {
+      "name": "Afyonkarahisar Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Antalya Mağaza 06",
+      "type": "Store"
+    },
+    {
+      "name": "Bursa Mağaza 08",
+      "type": "Store"
+    },
+    {
+      "name": "Erzurum Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Eskişehir Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "İzmir Mağaza 14",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 22",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 36",
+      "type": "Store"
+    },
+    {
+      "name": "Tekirdağ Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 23",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 24",
+      "type": "Store"
+    },
+    {
+      "name": "Pazarlama Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Pazarlama ve CRM Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Pazarlama ve E-Ticaret Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Merkez Mağaza 25",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 37",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 38",
+      "type": "Store"
+    },
+    {
+      "name": "Planlama ve Alokasyon Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Rize Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Rize Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Sakarya Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Samsun Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Samsun Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Samsun Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Samsun Mağaza 04",
+      "type": "Store"
+    },
+    {
+      "name": "Samsun Mağaza 05",
+      "type": "Store"
+    },
+    {
+      "name": "Satın Alma Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Satış Destek Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Satış ve İş Geliştirme",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Sinop Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Sivas Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "SMG",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Sourcing Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Strateji ve Dönüşüm Ofisi",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Şanlıurfa Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Tasarım Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Tekirdağ Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Tekirdağ Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Tokat Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Tokat Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 26",
+      "type": "Store"
+    },
+    {
+      "name": "Trabzon Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Şanlıurfa Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Uşak Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 39",
+      "type": "Store"
+    },
+    {
+      "name": "İstanbul Mağaza 40",
+      "type": "Store"
+    },
+    {
+      "name": "Üst Yönetim",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Van Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Van Mağaza 03",
+      "type": "Store"
+    },
+    {
+      "name": "Merkez Mağaza 27",
+      "type": "Store"
+    },
+    {
+      "name": "Yozgat Mağaza 01",
+      "type": "Store"
+    },
+    {
+      "name": "Yozgat Mağaza 02",
+      "type": "Store"
+    },
+    {
+      "name": "Yurtdışı Satış ve Operasyon Departmanı",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "ZFRC ve Toptan Satış",
+      "type": "HeadOffice"
+    },
+    {
+      "name": "Zonguldak Mağaza 01",
+      "type": "Store"
+    }
+  ],
+  "titles": [
+    "Account Manager",
+    "Alan Yöneticisi",
+    "Alokasyon Kıdemli Uzmanı",
+    "Alokasyon Uzman Yardımcısı",
+    "Alokasyon Uzmanı",
+    "Alokasyon Yöneticisi",
+    "Asistan Buyer",
+    "Banka İşlemleri Uzmanı",
+    "Bilgi Teknolojileri Destek Kıdemli Uzmanı",
+    "Bilgi Teknolojileri Destek Uzmanı",
+    "Bilgi Teknolojileri ve Dijital Dönüşüm Direktörü",
+    "Bordro ve Özlük Kıdemli Uzmanı",
+    "Bordro ve Özlük Uzman Yardımcısı",
+    "Bordro ve Özlük Uzmanı",
+    "Bölge Grup Müdürü",
+    "Bölge Müdürü",
+    "BT Altyapı ve Yazılım Geliştirme Yöneticisi",
+    "Buyer",
+    "Buying Manager",
+    "Bütçe ve Raporlama Kıdemli Uzmanı",
+    "CEO",
+    "CRM Uzman Yardımcısı",
+    "CSTO",
+    "Departman Asistanı",
+    "Depo Görevlisi",
+    "Dijital Marka İletişimi Kıdemli Uzmanı",
+    "Dönemsel Satış Danışmanı",
+    "Eğitim ve Gelişim Uzmanı",
+    "E-Ticaret Operasyon Görevlisi",
+    "E-Ticaret Operasyon Uzmanı",
+    "E-Ticaret Uzmanı",
+    "Finans Kıdemli Uzmanı",
+    "Finans Uzman Yardımcısı",
+    "Finans Uzmanı",
+    "Finans Yöneticisi (V)",
+    "FR Pazar Geliştirme Uzmanı",
+    "Franchise Bölge Müdürü",
+    "Franchise Yatırım ve Geliştirme Müdürü",
+    "Garment Technologist",
+    "Genel Muhasebe Uzmanı",
+    "Genel Müdür",
+    "Genel Müdür Asistanı",
+    "Görsel Sunum Kıdemli Uzmanı",
+    "Görsel Sunum Uzmanı",
+    "Grup Satış Direktörü",
+    "Güvenlik Görevlisi",
+    "İdari Asistan",
+    "İdari İşler Uzman Yardımcısı",
+    "İdari İşler Uzmanı",
+    "İdari Koordinatör",
+    "İnsan Kaynakları Direktörü",
+    "İnsan Kaynakları İş Ortağı",
+    "İnsan Kaynakları Uzmanı",
+    "İnsan Kaynakları ve İdari İşler Asistanı",
+    "İnşaat Teknikeri",
+    "İnşaat Teknikeri Kıdemli Uzmanı",
+    "İthalat ve İhracat Kıdemli Uzmanı",
+    "Kapasite Planlama Uzmanı",
+    "Kasiyer",
+    "Kıdemli İnsan Kaynakları İş Ortağı",
+    "Kıdemli Planlama ve Merchandising Analisti",
+    "Kıdemli Tasarımcı",
+    "Kiralama Direktörü",
+    "Kurumsal Satış ve Zincir Mağazalar Koordinatörü",
+    "Kurumsal Uygulamalar Kıdemli Uzmanı",
+    "Kurumsal Uygulamalar Uzmanı",
+    "Kurumsal Uygulamalar Yöneticisi",
+    "Lojistik Müdürü",
+    "Lojistik Operasyon Görevlisi",
+    "Lojistik Operasyon Uzmanı",
+    "Lojistik Sorumlusu",
+    "Lojistik Verimlilik Uzmanı",
+    "Mağaza Sorumlusu/Şefi",
+    "Mağaza Yöneticisi",
+    "Mağazacılık Muhasebe Uzmanı",
+    "Mali İşler Direktörü",
+    "Mali İşler Müdürü",
+    "Mali İşler Uzmanı",
+    "Maliyet Muhasebe Uzmanı",
+    "Merchandiser",
+    "Merchandiser Team Lead",
+    "Muhasebe Görevlisi",
+    "Muhasebe Kıdemli Uzmanı",
+    "Muhasebe Uzman Yardımcısı",
+    "Muhasebe Uzmanı",
+    "Öğrenme ve Dijital Gelişim Uzman Yardımcısı",
+    "Part-time Satış Danışmanı",
+    "Pazar Geliştirme Uzmanı",
+    "Pazarlama Uzman Yardımcısı",
+    "Pazarlama Uzmanı",
+    "Pazarlama ve CRM Yöneticisi",
+    "Pazarlama Yöneticisi (V)",
+    "Perakende Satış Direktörü",
+    "Perakende Satış Müdürü",
+    "Perakende Satış ve Yatırım Direktörü",
+    "Planlama Kıdemli Uzmanı",
+    "Planlama Uzmanı",
+    "Planlama ve Alokasyon Müdürü",
+    "Raporlama Uzman Yardımcısı",
+    "Resepsiyon Görevlisi",
+    "Saha Satış Sorumlusu",
+    "Saha Satış Uzmanı",
+    "Satın Alma Müdürü",
+    "Satış Danışmanı",
+    "Satış Danışmanı (ZFRC)",
+    "Satış Destek Danışmanı",
+    "Satış Direktörü",
+    "Satış Raporlama ve Analiz Uzman Yardımcısı",
+    "Sistem ve Network Kıdemli Uzmanı",
+    "Stajyer",
+    "Stok Kontrol Kıdemli Uzmanı",
+    "Stok Kontrol Uzman Yardımcısı",
+    "Stok Kontrol Uzmanı",
+    "Stok Kontrol ve Ürün İnceleme Yöneticisi",
+    "Takım Lideri",
+    "Tasarım Direktörü",
+    "Tasarım Müdürü",
+    "Tasarımcı",
+    "Temizlik Görevlisi",
+    "Terzi",
+    "Toptan Satış Görevlisi",
+    "Toptan Satış Uzman Yardımcısı",
+    "Toptan Satış Uzmanı",
+    "Toptan Satış Yöneticisi",
+    "Uzman Kasiyer",
+    "Uzman Satış Danışmanı",
+    "Uzman Satış Danışmanı (ZFRC)",
+    "Uzman Satış Danışmanı 1",
+    "Ücretlendirme ve Bordro Yöneticisi",
+    "Üretim Planlama Kıdemli Uzmanı",
+    "Üretim Takip Sorumlusu",
+    "Üretim Takip Uzmanı",
+    "Ürün Direktörü",
+    "Ürün İnceleme Uzman Yardımcısı",
+    "Ürün İnceleme Uzmanı",
+    "Ürün Yönetimi (Allocator) Kıdemli Uzmanı",
+    "Ürün Yönetimi (Allocator) Uzmanı",
+    "Vekil Mağaza Yöneticisi",
+    "Yatırımcı",
+    "Yazılım ve Proje Geliştirme Kıdemli Uzmanı",
+    "Yazılım ve Proje Geliştirme Uzman Yardımcısı",
+    "Yazılım ve Proje Geliştirme Uzmanı",
+    "Yönetim Sistemleri ve Süreç Geliştirme Uzmanı",
+    "Yönetişim Ofisi Yöneticisi",
+    "Yurtdışı Alokasyon Kıdemli uzmanı",
+    "Yurtdışı Satış ve Operasyon Müdürü",
+    "Yurtdışı Satış ve Operasyon Uzmanı",
+    "Yurtdışı Sourcing Yöneticisi",
+    "Yurtiçi Sourcing Müdürü",
+    "Zincir Mağazalar Alan Yöneticisi",
+    "Zincir Mağazalar Operasyon Kıdemli Uzmanı",
+    "Zincir Mağazalar Satış Yöneticisi"
+  ]
+}

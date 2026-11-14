@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* StajDesk tasarım token'ları: Devoplus kırmızısından türetilmiş marka rengi + nötr "ink" yüzeyler */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Manrope', 'Inter', ui-sans-serif, sans-serif;
+
+  --color-brand-50: #fff1f3;
+  --color-brand-100: #ffe0e5;
+  --color-brand-200: #ffc6cf;
+  --color-brand-300: #ff9cab;
+  --color-brand-400: #fb6380;
+  --color-brand-500: #f0345a;
+  --color-brand-600: #d9143f;
+  --color-brand-700: #b50b33;
+  --color-brand-800: #970d31;
+  --color-brand-900: #800f2f;
+  --color-brand-950: #480315;
+
+  --color-ink-50: #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d5d9e1;
+  --color-ink-300: #b0b7c5;
+  --color-ink-400: #858fa3;
+  --color-ink-500: #667086;
+  --color-ink-600: #50596d;
+  --color-ink-700: #3a4150;
+  --color-ink-750: #2c323e;
+  --color-ink-800: #222731;
+  --color-ink-850: #1a1e26;
+  --color-ink-900: #14171e;
+  --color-ink-950: #0d0f14;
+
+  --shadow-soft: 0 1px 2px rgb(16 18 24 / 0.04), 0 2px 8px rgb(16 18 24 / 0.04);
+  --shadow-pop: 0 10px 30px -10px rgb(16 18 24 / 0.25), 0 4px 10px -4px rgb(16 18 24 / 0.12);
+
+  --animate-in: in 0.18s ease-out;
+  --animate-drawer: drawer 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  @keyframes in { from { opacity: 0; transform: translateY(4px) scale(0.99) } to { opacity: 1; transform: none } }
+  @keyframes drawer { from { transform: translateX(24px); opacity: 0 } to { transform: none; opacity: 1 } }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 h-9 text-sm font-medium whitespace-nowrap transition-colors select-none
+    disabled:opacity-50 disabled:pointer-events-none cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500;
+}
+
+@layer base {
+  html { -webkit-font-smoothing: antialiased; color-scheme: light; }
+  html.dark { color-scheme: dark; }
+  body { @apply bg-ink-50 text-ink-700 dark:bg-ink-950 dark:text-ink-300 font-sans text-sm; }
+  h1, h2, h3, h4 { @apply text-ink-900 dark:text-white font-display tracking-tight; }
+  ::selection { @apply bg-brand-500/25; }
+  :focus-visible { outline-color: var(--color-brand-500); }
+  input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.6; cursor: pointer; }
+  .dark input[type='date']::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+  /* Taşma koruması: sütun tanımı olmayan grid tek, küçülebilir sütundur ve grid öğeleri içerikleri yüzünden
+     sütunu genişletemez (uzun metin / grafik / kart telefonda sayfayı yatay taşırıyordu).
+     Base katmanında olduğu için grid-cols-* gibi yardımcı sınıflar her zaman önceliklidir. */
+  :where(.grid) { grid-template-columns: minmax(0, 1fr); }
+  :where(.grid > *) { min-width: 0; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border border-ink-200/70 bg-white shadow-soft dark:border-white/[0.06] dark:bg-ink-900; }
+  .card-header { @apply flex items-center justify-between gap-3 border-b border-ink-100 px-5 py-3.5 dark:border-white/[0.06]; }
+  .card-title { @apply text-[15px] font-semibold text-ink-900 dark:text-white font-display; }
+  .muted { @apply text-ink-500 dark:text-ink-400; }
+
+  .btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-900/20; }
+  .btn-dark { @apply btn bg-ink-900 text-white hover:bg-ink-800 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100; }
+  .btn-secondary { @apply btn border border-ink-200 bg-white text-ink-800 hover:bg-ink-50 dark:border-white/10 dark:bg-white/[0.04] dark:text-ink-100 dark:hover:bg-white/[0.08]; }
+  .btn-ghost { @apply btn text-ink-600 hover:bg-ink-100 dark:text-ink-300 dark:hover:bg-white/[0.06]; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+  .btn-success { @apply btn bg-emerald-600 text-white hover:bg-emerald-700; }
+  .btn-sm { @apply h-8 px-2.5 text-xs; }
+  .btn-icon { @apply h-9 w-9 px-0; }
+
+  .label { @apply mb-1.5 block text-[13px] font-medium text-ink-700 dark:text-ink-200; }
+  .input { @apply h-9 w-full rounded-lg border border-ink-200 bg-white px-3 text-sm text-ink-900 placeholder-ink-400 shadow-xs outline-none transition
+                  hover:border-ink-300 focus:border-brand-500 focus:ring-3 focus:ring-brand-500/15
+                  disabled:cursor-not-allowed disabled:bg-ink-50 disabled:text-ink-400
+                  dark:border-white/10 dark:bg-ink-950/60 dark:text-white dark:placeholder-ink-500 dark:hover:border-white/20 dark:disabled:bg-white/[0.03]; }
+  .input-error { @apply border-red-400 focus:border-red-500 focus:ring-red-500/15 dark:border-red-500/60; }
+  textarea.input { @apply h-auto min-h-24 py-2 leading-6; }
+  select.input { @apply pr-8; }
+  .help { @apply mt-1 text-xs text-ink-500 dark:text-ink-400; }
+  .error-text { @apply mt-1 text-xs text-red-600 dark:text-red-400; }
+
+  .th { @apply whitespace-nowrap px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400; }
+  .td { @apply px-4 py-3 align-middle; }
+  .tr { @apply border-t border-ink-100 transition-colors hover:bg-ink-50/70 dark:border-white/[0.05] dark:hover:bg-white/[0.025]; }
+
+  .chip { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold; }
+  .kbd { @apply rounded border border-ink-200 bg-ink-50 px-1.5 text-[10px] font-medium text-ink-500 dark:border-white/10 dark:bg-white/5 dark:text-ink-400; }
+}
+
+/* ===================== Kaydırma çubukları =====================
+ * Tüm kaydırılabilir alanlarda aynı, tema uyumlu ince çubuk:
+ * - Chromium/Safari: ::-webkit-scrollbar (yuvarlak, kenar boşluklu, üzerine gelince koyulaşan tutamak)
+ * - Firefox: scrollbar-width / scrollbar-color (standart özellikler)
+ * Not: Chromium'da scrollbar-color tanımlanırsa ::-webkit-scrollbar yok sayılır; bu yüzden standart
+ * özellikler yalnızca ::-webkit-scrollbar desteklemeyen tarayıcılara verilir. */
+:root {
+  --sb-thumb: rgb(102 112 134 / 0.32);
+  --sb-thumb-hover: rgb(102 112 134 / 0.55);
+  --sb-thumb-active: rgb(102 112 134 / 0.7);
+}
+.dark {
+  --sb-thumb: rgb(176 183 197 / 0.18);
+  --sb-thumb-hover: rgb(176 183 197 / 0.34);
+  --sb-thumb-active: rgb(176 183 197 / 0.48);
+}
+
+/* Sayfa çubuğu her zaman yer ayırır: modal açılıp gövde kilitlenince içerik yana kaymaz */
+html { scrollbar-gutter: stable; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--sb-thumb);
+  border-radius: 9999px;
+  border: 3px solid transparent;   /* tutamağın etrafında boşluk: ince ve "yüzen" görünüm */
+  background-clip: content-box;
+  min-height: 40px;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--sb-thumb-hover); border-width: 2px; }
+::-webkit-scrollbar-thumb:active { background-color: var(--sb-thumb-active); }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb) transparent; }
+}
+
+/* İç kaydırma alanları (menüler, çekmeceler, listeler): daha ince çubuk ve sayfaya taşmayan kaydırma */
+.scroll-thin { overscroll-behavior: contain; }
+.scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { border-width: 2px; }
+
+/* Yatay şeritler (sekmeler, filtre çipleri): çubuk gizli, dokunmatikte kaydırılabilir */
+.no-scrollbar { scrollbar-width: none; overscroll-behavior-x: contain; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Geniş tablolar / kanban: yatay kaydırma kendi içinde kalır, geri-git jestini tetiklemez */
+.overflow-x-auto { overscroll-behavior-x: contain; }
+
+/* Sabit üst çubuk altında kalmasın: odaklanan/bağlantıyla gidilen öğeler biraz boşlukla görünür */
+:target, [id] { scroll-margin-top: 80px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.prose-sd h2 { @apply mt-6 mb-2 text-lg font-semibold; }
+.prose-sd h3 { @apply mt-4 mb-2 text-base font-semibold; }
+.prose-sd p { @apply my-3 leading-7; }
+.prose-sd ul { @apply my-3 list-disc space-y-1 pl-6; }
+.prose-sd ol { @apply my-3 list-decimal space-y-1 pl-6; }
+.prose-sd code { @apply rounded bg-ink-100 px-1.5 py-0.5 text-[13px] text-brand-700 dark:bg-white/10 dark:text-brand-300; }
+.prose-sd strong { @apply font-semibold text-ink-900 dark:text-white; }
+.prose-sd a { @apply text-brand-600 underline underline-offset-2; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

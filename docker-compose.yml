@@ -1,0 +1,136 @@
+name: stajdesk-new
+
+# Tüm sistem tek komutla:      docker compose up -d --build
+# Yalnızca altyapı (yerel geliştirme): docker compose up -d postgres redis rabbitmq seq
+#
+# Adresler: Portal http://localhost:3100 · Swagger http://localhost:3100/swagger
+#           RabbitMQ http://localhost:15673 · Seq http://localhost:5342 · Mailpit (e-posta) http://localhost:8126
+
+x-dotnet-env: &dotnet-env
+  ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+  RabbitMq__Host: rabbitmq
+  RabbitMq__Port: "5672"
+  RabbitMq__User: ${RABBITMQ_USER}
+  RabbitMq__Password: ${RABBITMQ_PASSWORD:?RABBITMQ_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+  ConnectionStrings__Redis: redis:6379
+  Seq__ServerUrl: http://seq:80
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+    ports: ["5434:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    ports: ["6380:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?RABBITMQ_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+    ports: ["5673:5672", "15673:15672"]
+    volumes: [rabbitdata:/var/lib/rabbitmq]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  seq:
+    image: datalust/seq:2025.2
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_NOAUTHENTICATION: "true"
+    ports: ["5342:80"]
+    volumes: [seqdata:/data]
+
+  # Geliştirme SMTP sunucusu: Worker'ın gönderdiği e-postalar burada görüntülenir (dışarıya e-posta gitmez).
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ["8126:8025", "1126:1025"]
+
+  api:
+    build:
+      context: ./backend
+      args: { PROJECT: StajDesk.Api }
+    environment:
+      <<: *dotnet-env
+      ASPNETCORE_ENVIRONMENT: Production
+      Jwt__Key: ${JWT_KEY:?JWT_KEY tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+      Seed__DefaultPassword: ${SEED_DEFAULT_PASSWORD:?SEED_DEFAULT_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
+      Storage__Root: /app/data/uploads
+      # İsteğe bağlı gerçek organizasyon verisi (depoya girmez). Klasör yoksa anonim örnek veri kullanılır.
+      Seed__OrganizationFile: /app/seed-private/organization.json
+      Cors__Origins__0: http://localhost:3100
+      Smtp__Host: ${SMTP_HOST:-mailpit}
+      Smtp__Port: ${SMTP_PORT:-1025}
+      Smtp__User: ${SMTP_USER:-}
+      Smtp__Password: ${SMTP_PASSWORD:-}
+      Smtp__PortalUrl: http://localhost:3100
+      Auth__LoginCode__DevMailboxUrl: ${DEV_MAILBOX_URL:-}
+    volumes:
+      - uploads:/app/data/uploads
+      - ./backend/seed-private:/app/seed-private:ro
+    ports: ["5100:8080"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      seq: { condition: service_started }
+      mailpit: { condition: service_started }
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health/live || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./backend
+      args: { PROJECT: StajDesk.Worker }
+    environment:
+      <<: *dotnet-env
+      DOTNET_ENVIRONMENT: Production
+      Smtp__Host: ${SMTP_HOST:-mailpit}
+      Smtp__Port: ${SMTP_PORT:-1025}
+      Smtp__User: ${SMTP_USER:-}
+      Smtp__Password: ${SMTP_PASSWORD:-}
+      Smtp__PortalUrl: http://localhost:3100
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      mailpit: { condition: service_started }
+      api: { condition: service_healthy } # veritabanı şeması API açılışında oluşturulur
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    ports: ["3100:80"]
+    depends_on:
+      api: { condition: service_healthy }
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  rabbitdata:
+  seqdata:
+  uploads:

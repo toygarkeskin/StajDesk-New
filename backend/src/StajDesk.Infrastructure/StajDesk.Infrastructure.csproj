@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Infrastructure: EF Core (PostgreSQL), migration'lar, RabbitMQ, ortak servisler. -->
+  <ItemGroup>
+    <ProjectReference Include="..\StajDesk.Domain\StajDesk.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="5.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Seed\organization.json" />
+  </ItemGroup>
+</Project>

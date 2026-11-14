@@ -1,0 +1,24 @@
+.env
+bin/
+obj/
+node_modules/
+dist/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.log
+TestResults/
+backend/src/StajDesk.Api/data/
+
+# Yerel gizli değerler (scripts/setup-secrets.mjs üretir)
+appsettings.Local.json
+.env.*
+!.env.example
+# Gerçek organizasyon verisi (isteğe bağlı, yalnızca yerel)
+backend/seed-private*/
+# Uçtan uca test çıktıları
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+frontend/.auth/

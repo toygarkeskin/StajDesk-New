@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+**/data/
+**/TestResults/
+tests/
+**/appsettings.Local.json
+seed-private/

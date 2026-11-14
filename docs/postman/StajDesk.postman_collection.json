@@ -1,0 +1,447 @@
+{
+  "info": {
+    "name": "StajDesk API",
+    "description": "1) 'Kimlik / Login' → doğrulama kodu e-postayla gelir (geliştirmede Mailpit: http://localhost:8126). 2) Kodu 'code' değişkenine yazıp 'Kimlik / Kodu doğrula' çalıştırın; token koleksiyon değişkenine yazılır. password değişkenini .env içindeki SEED_DEFAULT_PASSWORD ile doldurun.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3100/api"
+    },
+    {
+      "key": "email",
+      "value": "calisan@devoplus.local"
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "ticketId",
+      "value": "1"
+    },
+    {
+      "key": "submissionId",
+      "value": "1"
+    },
+    {
+      "key": "challengeId",
+      "value": ""
+    },
+    {
+      "key": "code",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Kimlik",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const r = pm.response.json();",
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "if (r.data && r.data.challenge) pm.collectionVariables.set('challengeId', r.data.challenge.challengeId);",
+                  "if (r.data && r.data.auth) pm.collectionVariables.set('token', r.data.auth.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"{{email}}\", \"password\": \"{{password}}\" }"
+            }
+          }
+        },
+        {
+          "name": "Kodu doğrula",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const r = pm.response.json();",
+                  "if (r.data) pm.collectionVariables.set('token', r.data.accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login/verify",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"challengeId\": \"{{challengeId}}\", \"code\": \"{{code}}\" }"
+            }
+          }
+        },
+        {
+          "name": "Kodu yeniden gönder",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login/resend",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"challengeId\": \"{{challengeId}}\" }"
+            }
+          }
+        },
+        {
+          "name": "Hatalı giriş (5 denemeden sonra 429)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"{{email}}\", \"password\": \"YanlisParola1\" }"
+            }
+          }
+        },
+        {
+          "name": "Ben",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Talepler",
+      "item": [
+        {
+          "name": "Listele (filtreli)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tickets?scope=mine&status=Open&page=1&pageSize=10"
+          }
+        },
+        {
+          "name": "Oluştur",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const r = pm.response.json();",
+                  "pm.test('201', () => pm.response.to.have.status(201));",
+                  "if (r.data) pm.collectionVariables.set('ticketId', r.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/tickets",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"title\": \"VPN bağlantısı kopuyor\", \"description\": \"Evden çalışırken VPN 10 dakikada bir kopuyor.\", \"categoryId\": 3, \"priority\": \"High\", \"type\": \"Incident\" }"
+            }
+          }
+        },
+        {
+          "name": "Detay",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/tickets/{{ticketId}}"
+          }
+        },
+        {
+          "name": "Yorum ekle",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/tickets/{{ticketId}}/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"body\": \"Ek bilgi: sorun öğleden sonra artıyor.\", \"isInternal\": false }"
+            }
+          }
+        },
+        {
+          "name": "Durum değiştir (IT)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/tickets/{{ticketId}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"status\": \"InProgress\" }"
+            }
+          }
+        },
+        {
+          "name": "Doğrulama hatası (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/tickets",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"title\": \"x\", \"description\": \"\", \"categoryId\": 0 }"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Form ve iş akışı",
+      "item": [
+        {
+          "name": "Uygulama kataloğu",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/apps"
+          }
+        },
+        {
+          "name": "İzin formu tanımı",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/forms/leave"
+          }
+        },
+        {
+          "name": "İzin başvurusu",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const r = pm.response.json();",
+                  "if (r.data) pm.collectionVariables.set('submissionId', r.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/forms/leave/submissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"data\": { \"leaveType\": \"Mazeret İzni\", \"startDate\": \"2026-12-02\", \"endDate\": \"2026-12-02\", \"description\": \"Resmî işlem\" } }"
+            }
+          }
+        },
+        {
+          "name": "Onay kuyruğum",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/submissions?scope=approvals"
+          }
+        },
+        {
+          "name": "Onayla",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/submissions/{{submissionId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"comment\": \"Uygundur.\" }"
+            }
+          }
+        },
+        {
+          "name": "Ciro bildirimi (nakit + kart = toplam)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/forms/store-revenue/submissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"data\":{\"storeName\":\"Adana 01 Burda AVM\",\"date\":\"2026-11-13\",\"cashAmount\":4000,\"cardAmount\":6000,\"amount\":10000,\"receiptCount\":40}}"
+            }
+          }
+        },
+        {
+          "name": "Ciro özeti (30 gün)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/revenue/summary?days=30"
+          }
+        },
+        {
+          "name": "Vardiya değişikliği",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/forms/shift/submissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"data\":{\"unit\":\"Muhasebe\",\"date\":\"2026-11-25\",\"currentShift\":\"Sabah (09:00-17:00)\",\"requestedShift\":\"Akşam (14:00-22:00)\"}}"
+            }
+          }
+        },
+        {
+          "name": "Ekip vardiya değişiklikleri",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/shifts"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Diğer",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/dashboard"
+          }
+        },
+        {
+          "name": "Bildirimler",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notifications?take=20"
+          }
+        },
+        {
+          "name": "Zimmetlerim",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/assets?mine=true"
+          }
+        },
+        {
+          "name": "Talep raporu",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/tickets?from=2026-10-01&to=2026-12-31"
+          }
+        },
+        {
+          "name": "Sistem durumu (admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/system/health"
+          }
+        },
+        {
+          "name": "Genel site",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/public/home"
+          }
+        },
+        {
+          "name": "Piyasa verisi",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/public/market"
+          }
+        }
+      ]
+    }
+  ]
+}
