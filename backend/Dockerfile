@@ -2,7 +2,7 @@
 # Aynı Dockerfile hem API hem Worker için kullanılır (PROJECT argümanı).
 ARG PROJECT=StajDesk.Api
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:11.0 AS build
 ARG PROJECT
 WORKDIR /src
 COPY Directory.Build.props ./
