@@ -22,3 +22,6 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/blob-report/
 frontend/.auth/
+
+# Yerel araç ayarları
+.claude/
