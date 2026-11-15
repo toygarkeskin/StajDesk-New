@@ -14,7 +14,7 @@ RUN dotnet restore src/${PROJECT}/${PROJECT}.csproj
 COPY src/ src/
 RUN dotnet publish src/${PROJECT}/${PROJECT}.csproj -c Release -o /app --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS final
+FROM mcr.microsoft.com/dotnet/aspnet:11.0-alpine AS final
 ARG PROJECT
 ENV APP_DLL=${PROJECT}.dll \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
