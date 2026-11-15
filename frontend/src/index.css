@@ -48,6 +48,11 @@
 }
 
 @layer base {
+  /* Edge/IE kendi parola göster ve temizle düğmelerini ekler; uygulamanın kendi göz düğmesiyle çakışmasın */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
   html { -webkit-font-smoothing: antialiased; color-scheme: light; }
   html.dark { color-scheme: dark; }
   body { @apply bg-ink-50 text-ink-700 dark:bg-ink-950 dark:text-ink-300 font-sans text-sm; }

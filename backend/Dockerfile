@@ -20,7 +20,7 @@ ENV APP_DLL=${PROJECT}.dll \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     TZ=Europe/Istanbul
 # icu-data-full: tr-TR gibi tam kültür verisi (para birimi biçimi, "6.280,54" ayrıştırma). krb5-libs: Npgsql GSSAPI uyarısını önler.
-RUN apk add --no-cache icu-libs icu-data-full krb5-libs tzdata && mkdir -p /app/data/uploads && chown -R app /app/data
+RUN apk add --no-cache icu-libs icu-data-full krb5-libs tzdata && mkdir -p /app/data/uploads /app/data/keys && chown -R app /app/data
 WORKDIR /app
 COPY --from=build /app .
 USER app

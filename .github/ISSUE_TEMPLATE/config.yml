@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Güvenlik açığı bildir
+    url: https://github.com/toygarkeskin/StajDesk-New/security/advisories/new
+    about: Güvenlik açıklarını herkese açık issue yerine özel olarak bildirin.
+  - name: Belgeler
+    url: https://github.com/toygarkeskin/StajDesk-New/blob/main/docs/README.md
+    about: Kurulum, ayarlar, mimari ve demo rehberi.

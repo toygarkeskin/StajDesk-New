@@ -76,6 +76,7 @@ services:
       Jwt__Key: ${JWT_KEY:?JWT_KEY tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
       Seed__DefaultPassword: ${SEED_DEFAULT_PASSWORD:?SEED_DEFAULT_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
       Storage__Root: /app/data/uploads
+      DataProtection__KeysPath: /app/data/keys
       # İsteğe bağlı gerçek organizasyon verisi (depoya girmez). Klasör yoksa anonim örnek veri kullanılır.
       Seed__OrganizationFile: /app/seed-private/organization.json
       Cors__Origins__0: http://localhost:3100
@@ -87,6 +88,7 @@ services:
       Auth__LoginCode__DevMailboxUrl: ${DEV_MAILBOX_URL:-}
     volumes:
       - uploads:/app/data/uploads
+      - dpkeys:/app/data/keys
       - ./backend/seed-private:/app/seed-private:ro
     ports: ["5100:8080"]
     depends_on:
@@ -134,3 +136,4 @@ volumes:
   rabbitdata:
   seqdata:
   uploads:
+  dpkeys:

@@ -1,0 +1,60 @@
+name: Hata bildirimi
+description: Bir şey beklendiği gibi çalışmıyor
+title: "[Hata] "
+labels: ["hata"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Güvenlik açığı mı buldunuz? Lütfen burada değil, [özel güvenlik bildirimiyle](../security/advisories/new) iletin.
+        Bildirime **gerçek kişi, mağaza veya parola bilgisi eklemeyin**.
+  - type: textarea
+    id: what
+    attributes:
+      label: Ne oldu?
+      description: Gördüğünüz davranış ve beklediğiniz davranış.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Yeniden üretme adımları
+      placeholder: |
+        1. `calisan@devoplus.local` ile giriş yap
+        2. Uygulama Merkezi → İzin
+        3. …
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Alan
+      options:
+        - Giriş / hesap
+        - Destek talepleri
+        - Form ve onay akışı
+        - İzin / avans / masraf / ciro / vardiya
+        - Envanter
+        - İletişim (duyuru, mesaj, anket…)
+        - Raporlar
+        - Bildirimler
+        - Kurulum / Docker
+        - Diğer
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Sürüm veya commit
+      placeholder: v1.0.0 veya commit kısaltması
+  - type: input
+    id: browser
+    attributes:
+      label: Tarayıcı ve ekran
+      placeholder: Edge 142, 1440 px / telefon 390 px
+  - type: textarea
+    id: logs
+    attributes:
+      label: Günlük veya ekran görüntüsü
+      description: Seq (http://localhost:5342) veya tarayıcı konsolundan ilgili satırlar. Jeton ve parola içeren satırları çıkarın.
+      render: text

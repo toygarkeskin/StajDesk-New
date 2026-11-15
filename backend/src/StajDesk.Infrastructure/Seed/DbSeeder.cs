@@ -690,10 +690,12 @@ public class DbSeeder(AppDbContext db, IPasswordHasher<User> hasher, ILogger<DbS
         var staff = p.Staff.Where(u => u.Manager is not null).ToList();
         User Any() => staff[_rnd.Next(staff.Count)];
         string D(int days) => DateOnly.FromDateTime(_now.AddDays(days)).ToString("yyyy-MM-dd");
+        var annualDays = LeaveRules.WorkingDays(DateOnly.Parse(D(10)), DateOnly.Parse(D(14)));
+        string WorkDay(int days) { var d = DateOnly.FromDateTime(_now.AddDays(days)); while (LeaveRules.WorkingDays(d, d) == 0) d = d.AddDays(-1); return d.ToString("yyyy-MM-dd"); }
 
         db.FormSubmissions.AddRange(
-            Sub("leave", e, new() { ["leaveType"] = "Yıllık İzin", ["startDate"] = D(10), ["endDate"] = D(14), ["description"] = "Aile ziyareti", ["days"] = LeaveRules.WorkingDays(DateOnly.Parse(D(10)), DateOnly.Parse(D(14))) }, SubmissionStatus.Pending, 1, "Yıllık İzin · 5 iş günü"),
-            Sub("leave", e, new() { ["leaveType"] = "Mazeret İzni", ["startDate"] = D(-30), ["endDate"] = D(-30), ["days"] = 1 }, SubmissionStatus.Approved, 33, "Mazeret İzni · 1 iş günü"),
+            Sub("leave", e, new() { ["leaveType"] = "Yıllık İzin", ["startDate"] = D(10), ["endDate"] = D(14), ["description"] = "Aile ziyareti", ["days"] = annualDays }, SubmissionStatus.Pending, 1, $"Yıllık İzin · {annualDays} iş günü"),
+            Sub("leave", e, new() { ["leaveType"] = "Mazeret İzni", ["startDate"] = WorkDay(-30), ["endDate"] = WorkDay(-30), ["days"] = 1 }, SubmissionStatus.Approved, 33, "Mazeret İzni · 1 iş günü"),
             Sub("hardware-request", e, new() { ["deviceType"] = "Monitör", ["quantity"] = 1, ["justification"] = "Çift ekran ile mutabakat çalışmaları hızlanacak." }, SubmissionStatus.Pending, 2, "Monitör × 1"),
             Sub("expense", e, new() { ["expenseDate"] = D(-6), ["category"] = "Yol", ["amount"] = 1850.50m, ["description"] = "Ankara mağaza ziyareti taksi ve otopark" }, SubmissionStatus.Approved, 5, "Yol · ₺1.850,50", 1850.50m),
             Sub("access-request", e, new() { ["system"] = "Power BI", ["accessLevel"] = "Okuma", ["reason"] = "Aylık ciro raporlarını görüntülemek için." }, SubmissionStatus.Completed, 12, "Power BI · Okuma"),
@@ -869,7 +871,7 @@ public class DbSeeder(AppDbContext db, IPasswordHasher<User> hasher, ILogger<DbS
         });
 
         // Örnek bildirimler
-        foreach (var t in await db.Tickets.Where(x => x.Status == TicketStatus.Resolved).Take(6).ToListAsync(ct))
+        foreach (var t in await db.Tickets.Where(x => x.Status == TicketStatus.Resolved).OrderBy(x => x.Id).Take(6).ToListAsync(ct))
             db.Notifications.Add(new Notification { UserId = t.RequesterId, Title = "Talebiniz çözüldü", Message = $"#{t.Id} \"{t.Title}\" talebiniz çözüldü olarak işaretlendi. Lütfen onaylayınız.", Kind = "success", Link = $"/tickets/{t.Id}", CreatedAt = t.ResolvedAt ?? _now });
         db.Notifications.Add(new Notification { UserId = p.Employee.Id, Title = "Yeni mesaj", Message = "Elif Aydın size bir mesaj gönderdi.", Kind = "message", Link = "/messages", CreatedAt = _now.AddHours(-1) });
         db.Notifications.Add(new Notification { UserId = p.Manager.Id, Title = "Onay bekleyen başvuru", Message = "Ahmet Yılmaz izin talebi oluşturdu.", Kind = "approval", Link = "/approvals", CreatedAt = _now.AddDays(-1) });

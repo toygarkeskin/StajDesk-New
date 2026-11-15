@@ -1,32 +1,24 @@
-# React + TypeScript + Vite
+# StajDesk arayüzü
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19 + TypeScript + Vite tek sayfa uygulaması. Üretimde nginx imajı içinde sunulur ve `/api`,
+`/hubs` isteklerini API'ye iletir ([nginx.conf](nginx.conf)).
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev          # http://localhost:5173 (/api → http://localhost:5100)
+npm test             # Vitest
+npm run lint         # oxlint
+npm run build        # tip kontrolü + üretim derlemesi
+npm run e2e          # Playwright, çalışan sisteme karşı (varsayılan http://localhost:3100)
+npm run screenshots  # README görüntüleri → ../docs/images
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+| Klasör | İçerik |
+|---|---|
+| `src/pages/` | Sayfalar, alana göre: `tickets/`, `workflow/`, `admin/`, `comms/`, `inventory/`, … |
+| `src/components/` | Ortak arayüz parçaları, düzen, form alanları, onay penceresi |
+| `src/lib/` | API istemcisi, TanStack Query sorguları, form şeması (Zod), SignalR bağlantısı |
+| `src/store/` | Oturum ve arayüz durumu (Zustand) |
+| `e2e/` | Uçtan uca testler ve ekran görüntüsü betiği |
+
+Ana belgeler: [../README.md](../README.md) · [../docs/](../docs/README.md)

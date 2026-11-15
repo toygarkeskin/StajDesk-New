@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -37,10 +38,18 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
     // Boş veritabanında EF Core, migration tablosunu sorgularken beklenen bir "tablo yok" hatası loglar; gerçek hata değildir
     .Filter.ByExcluding(e => e.Properties.TryGetValue("commandText", out var cmd) && cmd.ToString().Contains("__EFMigrationsHistory"))
+    // Data Protection anahtar şifreleyicisi uyarısı Linux konteynerde beklenen durumdur (aşağıdaki nota bakın)
+    .Filter.ByExcluding(e => e.MessageTemplate.Text.StartsWith("No XML encryptor configured"))
     .Enrich.FromLogContext()
     .Enrich.WithProperty("Application", "StajDesk.Api")
     .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
     .WriteTo.Seq(ctx.Configuration["Seq:ServerUrl"] ?? "http://localhost:5341"));
+
+// ---------- Data Protection anahtarları ----------
+// Konteyner yeniden oluşturulduğunda anahtarlar kaybolmasın diye kalıcı birime yazılır (DataProtection:KeysPath).
+// Anahtarlar dışarı açılmayan bir birimde durur; Linux'ta DPAPI olmadığından ayrıca şifrelenmez.
+if (builder.Configuration["DataProtection:KeysPath"] is { Length: > 0 } keysPath)
+    builder.Services.AddDataProtection().SetApplicationName("StajDesk").PersistKeysToFileSystem(new DirectoryInfo(keysPath));
 
 // ---------- Altyapı (EF Core, outbox, RabbitMQ) ----------
 builder.Services.AddHttpContextAccessor();
@@ -139,7 +148,7 @@ builder.Services.AddSingleton<Microsoft.AspNetCore.SignalR.IUserIdProvider, SubC
 builder.Services.AddHostedService<RealtimeRelayService>();
 builder.Services.AddHttpClient("external", c =>
 {
-    c.Timeout = TimeSpan.FromSeconds(6);
+    c.Timeout = TimeSpan.FromSeconds(15); // TCMB gibi kamu kaynakları yoğun saatlerde 5-10 sn yanıt verebiliyor; sonuç önbelleğe alınır
     c.DefaultRequestHeaders.UserAgent.ParseAdd("StajDesk/1.0");
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();

@@ -6,21 +6,6 @@ using StajDesk.Domain;
 
 namespace StajDesk.Infrastructure.Data;
 
-/// <summary>İsteği yapan kullanıcı. API'de HttpContext'ten, Worker'da "sistem" olarak doldurulur.</summary>
-public interface ICurrentUser
-{
-    Guid? UserId { get; }
-    string? UserName { get; }
-    string? IpAddress { get; }
-}
-
-public sealed class SystemUser : ICurrentUser
-{
-    public Guid? UserId => null;
-    public string? UserName => "Sistem";
-    public string? IpAddress => null;
-}
-
 /// <summary>
 /// SaveChanges sırasında IAuditable varlıkların değişikliklerini audit_logs tablosuna yazar
 /// ve UpdatedAt alanını günceller. Parola özeti gibi hassas alanlar kayda alınmaz.
