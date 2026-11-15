@@ -47,7 +47,7 @@ jobs:
           labels: |
             org.opencontainers.image.title=${{ matrix.name }}
             org.opencontainers.image.description=StajDesk kurumsal çalışan portalı
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           build-args: ${{ matrix.args }}
