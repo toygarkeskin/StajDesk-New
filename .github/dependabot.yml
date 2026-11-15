@@ -1,22 +1,32 @@
+# Bağımlılık güncellemeleri: haftalık, gruplanmış, yalnızca küçük ve yama sürümleri.
+# Büyük sürümler (ör. .NET 10 LTS → 11) bilinçli karar gerektirir; elle ve bir karar kaydıyla yapılır.
 version: 2
 updates:
   - package-ecosystem: nuget
     directory: /backend
     schedule: { interval: weekly }
-    open-pull-requests-limit: 5
     groups:
-      microsoft:
-        patterns: ["Microsoft.*", "System.*"]
+      nuget:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+
   - package-ecosystem: npm
     directory: /frontend
     schedule: { interval: weekly }
-    open-pull-requests-limit: 5
+    groups:
+      npm:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: monthly }
-  - package-ecosystem: docker
-    directory: /backend
-    schedule: { interval: monthly }
-  - package-ecosystem: docker
-    directory: /frontend
-    schedule: { interval: monthly }
+    groups:
+      actions:
+        patterns: ["*"]
