@@ -15,13 +15,20 @@ using StajDesk.Infrastructure.Messaging;
 namespace StajDesk.Api.Features;
 
 [Route("api/auth")]
-public class AuthController(AuthService auth, IOptions<JwtOptions> jwt, IWebHostEnvironment env) : ApiController
+public class AuthController(AuthService auth, IOptions<JwtOptions> jwt, IWebHostEnvironment env, IConfiguration config) : ApiController
 {
     private const string Cookie = "sd_rt";
 
+    /// <summary>
+    /// Yenileme çerezi HTTPS'te her zaman Secure'dur. Şifresiz HTTP'de Secure çerez tarayıcıda yalnızca localhost için
+    /// saklanır; telefondan ağ adresiyle denerken oturum her yenilemede düşerdi. Bu yüzden HTTP geliştirme kurulumunda
+    /// Auth:SecureCookie=false verilir, canlı katmanda (HTTPS) true zorunludur.
+    /// </summary>
+    private bool SecureCookie => Request.IsHttps || config.GetValue("Auth:SecureCookie", !env.IsDevelopment());
+
     private void SetCookie(string token) => Response.Cookies.Append(Cookie, token, new CookieOptions
     {
-        HttpOnly = true, Secure = Request.IsHttps || !env.IsDevelopment(), SameSite = SameSiteMode.Strict, Path = "/api/auth",
+        HttpOnly = true, Secure = SecureCookie, SameSite = SameSiteMode.Strict, Path = "/api/auth",
         Expires = DateTimeOffset.UtcNow.AddDays(jwt.Value.RefreshTokenDays),
     });
 

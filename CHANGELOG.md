@@ -30,9 +30,10 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 
 - Edge'de parola kutusunda tarayıcının kendi göz düğmesi uygulamanınkiyle birlikte görünüyordu.
 - Demo verisindeki izin başvurusu özeti, hesaplanan iş günüyle uyuşmuyordu.
-- Yoğun saatlerde TCMB 6 saniyeden geç yanıt verince döviz kurları gösterilemiyordu.
+- Yoğun saatlerde TCMB 6 saniyeden geç yanıt verince döviz kurları gösterilemiyordu; kur ve altın kaynakları artık aynı anda istenir.
 - Boş veritabanı doldurulurken EF Core sırasız `Take` uyarısı veriyordu.
 - Postman koleksiyonundaki örnek istekte gerçek bir mağaza adı geçiyordu.
+- Telefondan ağ adresiyle (HTTP) girişte oturum çerezi `Secure` olduğu için saklanmıyor, her yenilemede oturum düşüyordu. Geliştirme kurulumunda kapalı, HTTPS canlı katmanda zorunlu.
 
 ## [1.0.0] - 2026-11-15
 

@@ -28,6 +28,7 @@ Canlı şema: çalışan sistemde `/swagger`.
 | [guides/configuration.md](guides/configuration.md) | Ayarlar, gizli değerler, SMTP, gerçek kurum verisini yükleme |
 | [guides/testing.md](guides/testing.md) | Birim, mimari ve uçtan uca testler; README görüntülerini yenileme |
 | [guides/backup.md](guides/backup.md) | Veritabanı ve dosya yedeği, geri yükleme |
+| [guides/phone.md](guides/phone.md) | Portalı telefondan açmak: ağ, güvenlik duvarı, giriş kodu |
 | [guides/deployment.md](guides/deployment.md) | Canlıya alma: HTTPS, alan adı, kapalı yönetim portları |
 
 ## Güvenlik

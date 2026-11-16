@@ -49,9 +49,12 @@ public class PublicSiteService(AppDbContext db, CollaborationService collab, ICa
         var errors = new List<string>();
         var client = http.CreateClient("external");
         decimal? usd = null;
+        // İki kaynak aynı anda istenir: toplam bekleme en yavaş kaynak kadar olur, ikisinin toplamı kadar değil
+        var tcmbTask = client.GetStringAsync("https://www.tcmb.gov.tr/kurlar/today.xml", ct);
+        var truncgilTask = client.GetStringAsync("https://finans.truncgil.com/today.json", ct);
         try
         {
-            var xml = XDocument.Parse(await client.GetStringAsync("https://www.tcmb.gov.tr/kurlar/today.xml", ct));
+            var xml = XDocument.Parse(await tcmbTask);
             var date = xml.Root?.Attribute("Tarih")?.Value ?? "";
             foreach (var (code, name) in new[] { ("USD", "ABD Doları"), ("EUR", "Euro") })
             {
@@ -72,7 +75,7 @@ public class PublicSiteService(AppDbContext db, CollaborationService collab, ICa
         // gold-api.com ons fiyatı × TCMB USD ile hesaplanır. İkisi de yoksa değer gösterilmez.
         try
         {
-            using var doc = JsonDocument.Parse(await client.GetStringAsync("https://finans.truncgil.com/today.json", ct));
+            using var doc = JsonDocument.Parse(await truncgilTask);
             var raw = doc.RootElement.GetProperty("gram-altin").GetProperty("Satış").GetString() ?? "";
             if (!decimal.TryParse(raw, NumberStyles.Number, CultureInfo.GetCultureInfo("tr-TR"), out var price) || price <= 0)
                 throw new FormatException("Gram altın fiyatı okunamadı.");

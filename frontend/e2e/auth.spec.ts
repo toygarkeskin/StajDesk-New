@@ -9,7 +9,8 @@ test.describe('Genel site ve giriş', () => {
     // Giriş yapmamış ziyaretçiye çalışan e-postası / kişisel bilgi gösterilmez
     await expect(page.locator('body')).not.toContainText('@devoplus.local')
     // Piyasa verisi: gerçek değer ya da açık hata mesajı (uydurma değer yok)
-    await expect(page.getByText(/ABD Doları|alınamıyor/).first()).toBeVisible()
+    // Dış kaynaklar (TCMB, Truncgil) yoğun saatte 10 sn'yi aşabilir; sunucu en fazla 15 sn bekler
+    await expect(page.getByText(/ABD Doları|alınamıyor/).first()).toBeVisible({ timeout: 20_000 })
     await page.getByRole('link', { name: /Portala Git/i }).first().click()
     await expect(page).toHaveURL(/\/login$/)
     expect(problems, problems.join('\n')).toEqual([])

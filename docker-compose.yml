@@ -86,6 +86,8 @@ services:
       # İsteğe bağlı gerçek organizasyon verisi (depoya girmez). Klasör yoksa anonim örnek veri kullanılır.
       Seed__OrganizationFile: /app/seed-private/organization.json
       Cors__Origins__0: http://localhost:3100
+      # Bu kurulum şifresiz HTTP içindir: telefondan ağ adresiyle açınca oturum çerezi saklanabilsin. Canlı katman true yapar.
+      Auth__SecureCookie: "false"
       Smtp__Host: ${SMTP_HOST:-mailpit}
       Smtp__Port: ${SMTP_PORT:-1025}
       Smtp__User: ${SMTP_USER:-}

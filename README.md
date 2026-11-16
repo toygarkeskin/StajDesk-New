@@ -113,7 +113,7 @@ docker compose up -d --build
 | Sağlık | http://localhost:3100/health/ready |
 
 Yönetim arayüzleri ve altyapı yalnızca bu bilgisayardan açılır; ağdan yalnızca portal erişilebilir.
-Canlı ortam için HTTPS katmanı: [docs/guides/deployment.md](docs/guides/deployment.md)
+Canlı ortam için HTTPS katmanı: [docs/guides/deployment.md](docs/guides/deployment.md) · Telefondan denemek: [docs/guides/phone.md](docs/guides/phone.md)
 
 ### Demo hesapları
 

@@ -86,5 +86,6 @@ kayıtları içe aktarılmaz; departman ve unvanlar yalnızca CSV'nin bu iki sü
 | `Storage:Root` | `data/uploads` | Yüklenen dosyalar; Docker'da `uploads` birimi |
 | `Storage:MaxBytes` | `10485760` | Dosya başına üst sınır (10 MB) |
 | `DataProtection:KeysPath` | — | ASP.NET Data Protection anahtarları; Docker'da `dpkeys` birimi |
+| `Auth:SecureCookie` | geliştirmede `false`, aksi hâlde `true` | Yenileme çerezinin `Secure` olması; HTTPS isteklerinde her zaman `true`. Docker geliştirme kurulumu `false`, canlı katman `true` verir |
 | `Swagger:Enabled` | `true` | API belgesi (`/swagger`); canlı katmanda `false` |
 | `Cors:Origins` | `localhost:5173`, `localhost:3000` | Yerel geliştirmede izin verilen kökenler |

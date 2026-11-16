@@ -47,6 +47,7 @@ services:
     ports: !reset []
     environment:
       Swagger__Enabled: "false"
+      Auth__SecureCookie: "true"
       Cors__Origins__0: https://${DOMAIN:?DOMAIN tanımlı değil}
       Smtp__Host: ${SMTP_HOST:?SMTP_HOST tanımlı değil, canlıda gerçek e-posta sunucusu gerekir}
       Smtp__PortalUrl: https://${DOMAIN:?DOMAIN tanımlı değil}
