@@ -1,0 +1,71 @@
+# Canlı ortam katmanı: HTTPS (Caddy + Let's Encrypt), dışarıya yalnızca 80/443 açık.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Gerekenler (.env): DOMAIN, ACME_EMAIL, SMTP_HOST/PORT/USER/PASSWORD, DEV_MAILBOX_URL boş.
+# Ayrıntı: docs/guides/deployment.md
+
+x-prod-required:
+  domain: &domain ${DOMAIN:?DOMAIN tanımlı değil (ör. portal.sirket.com), bkz. docs/guides/deployment.md}
+
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      DOMAIN: *domain
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL tanımlı değil (sertifika bildirimleri için e-posta)}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
+    depends_on: [web]
+    restart: unless-stopped
+
+  # Portal yalnızca Caddy üzerinden; nginx istemcinin gerçek IP'sini Caddy'den alır
+  web:
+    ports: !reset []
+    volumes:
+      - ./deploy/nginx-real-ip.conf:/etc/nginx/conf.d/real-ip.conf:ro
+
+  # Altyapı ve yönetim arayüzleri dışarıya hiç açılmaz; gerekirse SSH tüneliyle bağlanılır
+  postgres:
+    ports: !reset []
+  redis:
+    ports: !reset []
+  rabbitmq:
+    ports: !reset []
+  seq:
+    ports: !reset []
+
+  # Test posta kutusu canlıda çalışmaz (denemek için: --profile mailpit)
+  mailpit:
+    profiles: [mailpit]
+    ports: !reset []
+
+  api:
+    ports: !reset []
+    environment:
+      Swagger__Enabled: "false"
+      Cors__Origins__0: https://${DOMAIN:?DOMAIN tanımlı değil}
+      Smtp__Host: ${SMTP_HOST:?SMTP_HOST tanımlı değil, canlıda gerçek e-posta sunucusu gerekir}
+      Smtp__PortalUrl: https://${DOMAIN:?DOMAIN tanımlı değil}
+      Auth__LoginCode__DevMailboxUrl: ""
+    depends_on: !override
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      seq: { condition: service_started }
+
+  worker:
+    environment:
+      Smtp__Host: ${SMTP_HOST:?SMTP_HOST tanımlı değil, canlıda gerçek e-posta sunucusu gerekir}
+      Smtp__PortalUrl: https://${DOMAIN:?DOMAIN tanımlı değil}
+    depends_on: !override
+      rabbitmq: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      api: { condition: service_healthy }
+
+volumes:
+  caddydata:
+  caddyconfig:

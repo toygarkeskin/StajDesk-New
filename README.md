@@ -112,6 +112,9 @@ docker compose up -d --build
 | Kuyruklar (RabbitMQ) | http://localhost:15673 |
 | Sağlık | http://localhost:3100/health/ready |
 
+Yönetim arayüzleri ve altyapı yalnızca bu bilgisayardan açılır; ağdan yalnızca portal erişilebilir.
+Canlı ortam için HTTPS katmanı: [docs/guides/deployment.md](docs/guides/deployment.md)
+
 ### Demo hesapları
 
 Parola: `.env` içindeki `SEED_DEFAULT_PASSWORD`. Parolanın ardından hesabın e-postasına **6 haneli
@@ -143,6 +146,7 @@ Demoyu adım adım nasıl göstereceğiniz: [docs/guides/demo.md](docs/guides/de
 | **Avans / masraf** | Yönetilebilir tutar limitleri; limiti aşan başvuru sunucuda reddedilir |
 | **Ciro** | Yalnızca açık mağazalar, nakit + kart = toplam kontrolü, aynı mağaza/gün için mükerrer engeli, ortalama sepet, 30 günlük panel ve mağaza sıralaması |
 | **Vardiya** | 60 güne kadar ileri tarih, izinli güne ve aynı güne ikinci talep engeli; takas edilen kişi aynı departmandan olmalı ve **önce onun onayı** alınır |
+| **Güvenlik** | Parolalar PBKDF2 (100.000 tekrar) ile özetlenir; canlıda HTTPS + HSTS, sıkı içerik güvenlik politikası (CSP), altyapı servisleri parolalı ve dışarıya kapalı. Ayrıntı: [şifreleme özeti](SECURITY.md#şifreleme-özeti) |
 | **Giriş ve hesap** | Dışarıdan kayıt yok: İK talep eder → IT onaylar → geçici parola → ilk girişte zorunlu değişiklik. E-posta doğrulama kodlu iki adımlı giriş, 5 dk'da 5 hatalı denemede `429` |
 | **Yetki** | 10 sistem rolü, izin matrisi; görünürlük veri sorgusunda uygulanır (talep, başvuru, dosya, doküman, zimmet) |
 | **Bildirim** | Uygulama içi kayıt + SignalR ile anlık sayaç ve bildirim + SMTP e-posta. Anlık bağlantı koparsa arayüz periyodik sorguya döner |
@@ -153,7 +157,8 @@ Demoyu adım adım nasıl göstereceğiniz: [docs/guides/demo.md](docs/guides/de
 
 **Henüz yok:** Ciro, Vardiya, İzin, Avans ve Masraf dışındaki 38 departman uygulaması ortak form +
 onay motoruyla çalışır, kendine özel hesaplama içermez. Kurumsal dizin (LDAP/Entra ID) entegrasyonu ve
-nesne depolama (S3) yoktur; dosyalar Docker biriminde tutulur.
+nesne depolama (S3) yoktur; dosyalar Docker biriminde tutulur. Diskteki veri uygulama düzeyinde
+şifrelenmez; sunucu disk şifrelemesi önerilir ([SECURITY.md](SECURITY.md#şifreleme-özeti)).
 
 ## Mimari
 
@@ -224,7 +229,7 @@ aynı klasördedir.
 | Veri | PostgreSQL 17 · **Önbellek:** Redis 7 · **Kuyruk:** RabbitMQ 4 (outbox, dead-letter) |
 | Arka plan | .NET Worker Service: uygulama içi, SignalR ve SMTP bildirim kanalları |
 | Gözlem | Serilog → Seq, sağlık uçları, sistem durumu ekranı |
-| Altyapı | Docker Compose, GitHub Actions (CI + ghcr.io imajları) |
+| Altyapı | Docker Compose, Caddy (HTTPS, canlı katman), GitHub Actions (CI + ghcr.io imajları) |
 
 ## Testler
 

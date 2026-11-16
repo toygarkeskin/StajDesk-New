@@ -33,10 +33,12 @@ zorunlu değerlerde API ve Worker'ı durdurur ve hangi değerin eksik olduğunu 
 |---|---|
 | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Veritabanı |
 | `RABBITMQ_USER`, `RABBITMQ_PASSWORD` | Kuyruk |
+| `REDIS_PASSWORD` | Önbellek; eski bir `.env`'de yoksa `setup-secrets` ekler |
 | `JWT_KEY` | Erişim jetonu imza anahtarı, en az 32 karakter |
 | `SEED_DEFAULT_PASSWORD` | Demo hesaplarının başlangıç parolası (yalnızca boş veritabanı doldurulurken) |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | E-posta sunucusu; varsayılan compose içindeki Mailpit |
 | `DEV_MAILBOX_URL` | Giriş ekranındaki "test posta kutusunu aç" bağlantısı; **üretimde boş bırakın** |
+| `DOMAIN`, `ACME_EMAIL` | Yalnızca [canlı katman](deployment.md): alan adı ve sertifika bildirimleri |
 
 ## Gerçek SMTP sunucusu
 
@@ -84,4 +86,5 @@ kayıtları içe aktarılmaz; departman ve unvanlar yalnızca CSV'nin bu iki sü
 | `Storage:Root` | `data/uploads` | Yüklenen dosyalar; Docker'da `uploads` birimi |
 | `Storage:MaxBytes` | `10485760` | Dosya başına üst sınır (10 MB) |
 | `DataProtection:KeysPath` | — | ASP.NET Data Protection anahtarları; Docker'da `dpkeys` birimi |
+| `Swagger:Enabled` | `true` | API belgesi (`/swagger`); canlı katmanda `false` |
 | `Cors:Origins` | `localhost:5173`, `localhost:3000` | Yerel geliştirmede izin verilen kökenler |

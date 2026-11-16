@@ -220,13 +220,17 @@ app.UseAuthentication();
 app.UseMiddleware<PasswordChangeGateMiddleware>();
 app.UseAuthorization();
 
-app.MapOpenApi();
-app.UseSwaggerUI(o =>
+// API belgesi demo ve geliştirmede açıktır; canlıda Swagger__Enabled=false ile kapatılır (uç noktaların listesi dışarı verilmez).
+if (config.GetValue("Swagger:Enabled", true))
 {
-    o.SwaggerEndpoint("/openapi/v1.json", "StajDesk API v1");
-    o.RoutePrefix = "swagger";
-    o.DocumentTitle = "StajDesk API";
-});
+    app.MapOpenApi();
+    app.UseSwaggerUI(o =>
+    {
+        o.SwaggerEndpoint("/openapi/v1.json", "StajDesk API v1");
+        o.RoutePrefix = "swagger";
+        o.DocumentTitle = "StajDesk API";
+    });
+}
 app.MapControllers();
 app.MapHub<NotificationHub>("/hubs/notifications");
 

@@ -346,7 +346,7 @@
             "url": "{{baseUrl}}/forms/store-revenue/submissions",
             "body": {
               "mode": "raw",
-              "raw": "{\"data\":{\"storeName\":\"Adana 01 Burda AVM\",\"date\":\"2026-11-13\",\"cashAmount\":4000,\"cardAmount\":6000,\"amount\":10000,\"receiptCount\":40}}"
+              "raw": "{\"data\":{\"storeName\":\"Ankara Mağaza 01\",\"date\":\"2026-11-13\",\"cashAmount\":4000,\"cardAmount\":6000,\"amount\":10000,\"receiptCount\":40}}"
             }
           }
         },

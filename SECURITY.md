@@ -22,6 +22,18 @@ Bildirim 7 gün içinde yanıtlanır; düzeltme yayınlanana kadar ayrıntılar 
 > Bu proje bir staj projesidir ve demo verisiyle çalışır. Canlı ortama almadan önce aşağıdaki kontrolleri
 > kendi altyapınıza göre gözden geçirin; özellikle SMTP, HTTPS sonlandırma ve yedekleme.
 
+## Şifreleme özeti
+
+| Veri | Nasıl korunur |
+|---|---|
+| Parolalar | Geri çevrilemez özet: PBKDF2-HMAC-SHA512, 100.000 tekrar, kullanıcıya özel 128 bit tuz (ASP.NET Core Identity v3). Parolanın kendisi hiçbir yerde saklanmaz. |
+| Giriş doğrulama kodu | Saklanmaz; meydan okuma kimliğiyle tuzlanmış SHA-256 özeti, sabit zamanlı karşılaştırma. |
+| Yenileme jetonu | 384 bit kriptografik rastgele; veritabanında yalnızca SHA-256 özeti, her kullanımda yenilenir. |
+| Erişim jetonu (JWT) | HMAC-SHA256 ile imzalı, 15 dk; anahtar `.env`'den gelir, en az 32 karakter zorunlu. |
+| Aktarım (ağ trafiği) | Canlı katmanda TLS 1.2/1.3 + HSTS ([canlıya alma](docs/guides/deployment.md)). Geliştirme kurulumu yalnızca `localhost` içindir ve şifresiz HTTP kullanır. |
+| Altyapı bağlantıları | PostgreSQL, Redis ve RabbitMQ parolalı; parolalar her kurulumda rastgele üretilir. Bu servisler dışarıya açılmaz. |
+| Diskteki veri | Veritabanı ve yüklenen dosyalar Docker birimlerinde şifrelenmeden durur; disk şifrelemesi (BitLocker, LUKS) sunucu düzeyinde yapılmalıdır. Yedekler kişisel veri içerir ve şifreli ortamda saklanmalıdır. |
+
 ## Uygulanan kontroller
 
 | Kontrol | Uygulama |
@@ -41,5 +53,6 @@ Bildirim 7 gün içinde yanıtlanır; düzeltme yayınlanana kadar ayrıntılar 
 | Gerçek zamanlı kanal | SignalR hub `[Authorize]`; kullanıcı yalnızca kendi `sub` kimliğine gönderilen olayları alır. Sorgu dizesindeki token yalnızca `/hubs` yolunda kabul edilir; ilk parola belirlenmeden hub'a bağlanılamaz (`PasswordChangeGateMiddleware`). |
 | E-posta | SMTP kimlik bilgileri `.env` / ortam değişkeninden gelir. Geliştirmede Mailpit kullanıldığı için dışarıya e-posta gitmez. Şablondaki tüm değerler HTML-encode edilir. |
 | Kişisel veri | Çalışan rehberi yalnızca iş iletişim bilgilerini döner; doğum günleri yalnızca gün/ay. Genel site yalnızca `IsPublic` içerik ve toplu sayıları gösterir. Anonim anketlerde kullanıcı kimliği saklanmaz (tekrar oyu engellemek için özet tutulur). |
-| HTTP | nginx: `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`. API ve SPA aynı kökenden sunulur (CORS minimum). |
+| HTTP başlıkları | Tüm arayüz yanıtlarında (JS/CSS dahil): `Content-Security-Policy` (satır içi betik yok, `script-src 'self'`), `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`; canlıda HSTS. API ve arayüz aynı kökenden sunulur (CORS minimum). Yazı tipleri uygulamayla sunulur, üçüncü taraf isteği yapılmaz. |
+| Ağ yüzeyi | Geliştirmede altyapı ve yönetim arayüzleri (PostgreSQL, Redis, RabbitMQ, Seq, Mailpit, API) yalnızca `127.0.0.1`; ağdan yalnızca portal açık. Canlı katmanda yalnızca 80/443 (Caddy) açık; Swagger kapalı. Redis parolalı. |
 | Dış veri | Piyasa ve hava verisi sunucu tarafında çekilir, önbelleğe alınır; kaynak erişilemezse değer uydurulmaz, hata gösterilir. |

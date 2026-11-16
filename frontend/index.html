@@ -7,15 +7,8 @@
     <meta name="theme-color" content="#0f1117" />
     <meta name="description" content="StajDesk — Devoplus kurumsal çalışan portalı ve talep yönetim sistemi" />
     <title>StajDesk · Devoplus</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
-    <script>
-      try {
-        var t = localStorage.getItem('stajdesk-theme')
-        if (t === 'light') document.documentElement.classList.remove('dark')
-      } catch (e) {}
-    </script>
+    <!-- Tema, ilk boyamadan önce uygulanır (yanıp sönme olmasın). Satır içi değil: CSP script-src 'self' kalabilsin. -->
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,19 @@
+# StajDesk canlı ortam girişi: HTTPS sonlandırma.
+# Caddy sertifikayı Let's Encrypt'ten kendisi alır ve süresi dolmadan yeniler; HTTP isteklerini HTTPS'e yönlendirir.
+# DOMAIN=localhost verilirse Caddy kendi yerel sertifika yetkilisini kullanır (yalnızca deneme için).
+
+{
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	header {
+		# Tarayıcı bir yıl boyunca bu alan adına yalnızca HTTPS ile bağlansın
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+
+	reverse_proxy web:80
+}

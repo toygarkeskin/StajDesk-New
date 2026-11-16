@@ -105,7 +105,7 @@ test.describe('İş akışları (uçtan uca)', () => {
     await login(manager, users.manager)
     await manager.goto('/approvals')
     await settle(manager)
-    await expect(manager.getByText(number)).toBeVisible()
+    await expect(manager.getByText(number, { exact: true })).toBeVisible() // anlık bildirim de aynı numarayı gösterebilir
     await manager.goto(url)
     await manager.getByRole('button', { name: 'Onayla' }).click()
     await confirmDialog(manager, 'Onayla', 'Uygundur (E2E).')
@@ -207,6 +207,7 @@ test.describe('İş akışları (uçtan uca)', () => {
     const width = await page.evaluate(() => document.querySelector('main')!.getBoundingClientRect().width)
     await page.keyboard.press('Control+k')
     await expect(page.getByRole('dialog', { name: 'Hızlı arama' })).toBeVisible()
-    expect(await page.evaluate(() => document.querySelector('main')!.getBoundingClientRect().width)).toBe(width) // kaydırma çubuğu kaybolunca içerik kaymaz
+    const after = await page.evaluate(() => document.querySelector('main')!.getBoundingClientRect().width)
+    expect(after, `ana içerik genişliği ${width} → ${after}`).toBe(width) // kaydırma çubuğu kaybolunca içerik kaymaz
   })
 })

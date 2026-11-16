@@ -5,6 +5,15 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 
 ## [Yayınlanmadı]
 
+### Güvenlik
+
+- Redis artık parolalı; `setup-secrets` eski `.env` dosyalarına eksik parolayı kendisi ekler.
+- PostgreSQL, Redis, RabbitMQ, Seq, Mailpit ve API portları yalnızca `127.0.0.1`'e açılır (önceden tüm ağa açıktı).
+- Arayüze içerik güvenlik politikası (CSP), `Permissions-Policy` ve `Cross-Origin-Opener-Policy` eklendi.
+- JS/CSS dosyalarında güvenlik başlıkları eksikti (nginx başlık mirası); tüm yanıtlara uygulanıyor.
+- Yazı tipleri uygulamayla sunuluyor; Google Fonts'a istek gitmiyor.
+- Canlı ortam katmanı: Caddy ile otomatik HTTPS, HSTS, kapalı yönetim portları, Swagger kapalı.
+
 ### Eklendi
 
 - Mimari testleri: katman bağımlılıkları ve adlandırma kuralları derlemede denetlenir.
@@ -23,6 +32,7 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 - Demo verisindeki izin başvurusu özeti, hesaplanan iş günüyle uyuşmuyordu.
 - Yoğun saatlerde TCMB 6 saniyeden geç yanıt verince döviz kurları gösterilemiyordu.
 - Boş veritabanı doldurulurken EF Core sırasız `Take` uyarısı veriyordu.
+- Postman koleksiyonundaki örnek istekte gerçek bir mağaza adı geçiyordu.
 
 ## [1.0.0] - 2026-11-15
 
