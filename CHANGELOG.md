@@ -39,6 +39,7 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 - Docker yeniden açıldığında PostgreSQL, Redis, RabbitMQ, Seq ve Mailpit kendiliğinden başlamıyordu; portal açılıyor ama veri gelmiyordu. Tüm servisler `restart: unless-stopped`.
 - "Bugün" bazı yerlerde UTC'ye göre hesaplanıyordu: gece 00:00-03:00 arası günün cirosu "ileri tarihli" sayılıyor, raporlar ve panodaki günlük grafikler günü 3 saat kaydırıyor, doğum günleri bir gün geç görünüyordu. Takvim günü artık her yerde Türkiye saatine göre (`BusinessTime`).
 - Adında "İ" ya da "I" geçen mağazalar (İstanbul, İzmir, Isparta, Iğdır…) ciro bildiremiyordu: veritabanı ve C# Türkçe harfleri farklı küçültüyordu. Eşleşme artık Türkçe kurallarla yapılıyor; uçtan uca test bu mağazaları öncelikli seçiyor.
+- RabbitMQ konteyneri her yeniden oluşturulduğunda farklı düğüm adıyla açıldığı için kuyrukta bekleyen bildirimler kayboluyordu; servise sabit ad (`hostname: rabbitmq`) verildi.
 - Raporlar sayfasının varsayılan tarih aralığı gece 00:00-03:00 arası bir gün geriden başlıyordu.
 - Telefondan ağ adresiyle (HTTP) girişte oturum çerezi `Secure` olduğu için saklanmıyor, her yenilemede oturum düşüyordu. Geliştirme kurulumunda kapalı, HTTPS canlı katmanda zorunlu.
 

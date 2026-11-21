@@ -51,6 +51,9 @@ services:
 
   rabbitmq:
     image: rabbitmq:4-management-alpine
+    # RabbitMQ verisini düğüm adına (rabbit@<hostname>) göre saklar. Sabit ad olmazsa konteyner her yeniden
+    # oluşturulduğunda yeni bir düğüm açılır ve kuyrukta bekleyen bildirimler eski düğümün klasöründe kalıp kaybolur.
+    hostname: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?RABBITMQ_PASSWORD tanımlı değil, önce node scripts/setup-secrets.mjs çalıştırın}
