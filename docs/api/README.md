@@ -10,7 +10,7 @@ Kimlik doğrulama iki adımlıdır:
 1. `POST /api/auth/login` `{ email, password }` → `{ requiresCode: true, challenge: { challengeId, maskedEmail, expiresAt, resendAfterSeconds, codeLength } }`; kod e-postayla gider.
 2. `POST /api/auth/login/verify` `{ challengeId, code }` → `accessToken` (15 dk, `Authorization: Bearer …`) + httpOnly `sd_rt` refresh çerezi (7 gün, rotasyonlu).
 
-`POST /api/auth/login/resend` `{ challengeId }` yeni kod gönderir. SMTP tanımlı değilse (veya `Auth:LoginCode:Enabled=false`) 1. adım doğrudan `auth` döner.
+`POST /api/auth/login/resend` `{ challengeId }` yeni kod gönderir. `POST /api/auth/refresh` çerez yoksa `204` (oturum yok), çerez geçersiz ya da süresi dolmuşsa `401` döner. SMTP tanımlı değilse (veya `Auth:LoginCode:Enabled=false`) 1. adım doğrudan `auth` döner.
 Durum kodları: `200/201/204` başarı · `400` doğrulama · `401` oturum yok/süresi doldu · `403` yetki yok (`PASSWORD_CHANGE_REQUIRED` dahil) · `404` · `409` çakışma · `429` hız sınırı · `500`.
 
 | Grup | Uç noktalar | Yetki |

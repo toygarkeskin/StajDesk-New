@@ -32,6 +32,11 @@ export async function refreshSession(): Promise<string | null> {
   refreshing ??= axios
     .post<Envelope<AuthResponse>>(`${http.defaults.baseURL}/auth/refresh`, null, { withCredentials: true })
     .then((r) => {
+      // 204: oturum çerezi yok (giriş yapılmamış ziyaretçi); hata değildir
+      if (r.status === 204 || !r.data?.data) {
+        useAuth.getState().clear()
+        return null
+      }
       useAuth.getState().setSession(r.data.data)
       return r.data.data.accessToken
     })

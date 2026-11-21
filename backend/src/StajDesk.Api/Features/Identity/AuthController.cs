@@ -64,6 +64,9 @@ public class AuthController(AuthService auth, IOptions<JwtOptions> jwt, IWebHost
     [AllowAnonymous, HttpPost("refresh")]
     public async Task<IActionResult> Refresh(CancellationToken ct)
     {
+        // Çerez hiç yoksa ziyaretçi zaten giriş yapmamıştır: hata değil, "oturum yok" (204). Aksi hâlde her sayfa
+        // açılışında tarayıcı konsoluna 401 düşüyordu. Çerez var ama geçersiz/süresi dolmuşsa 401 sürer.
+        if (string.IsNullOrEmpty(Request.Cookies[Cookie])) return NoContent();
         var (res, refresh) = await auth.RefreshAsync(Request.Cookies[Cookie], Ip, ct);
         SetCookie(refresh);
         return Ok(res);

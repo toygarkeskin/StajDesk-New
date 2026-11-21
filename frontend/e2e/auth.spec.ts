@@ -16,6 +16,18 @@ test.describe('Genel site ve giriş', () => {
     expect(problems, problems.join('\n')).toEqual([])
   })
 
+  test('giriş yapmamış ziyaretçide konsol hatası ve 4xx yanıtı olmaz', async ({ page }) => {
+    // watchHealth'ten sıkı: tarayıcının ağ günlüğü dahil hiçbir konsol hatası kabul edilmez
+    const errors: string[] = []
+    page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
+    page.on('response', (r) => { if (r.status() >= 400 && r.url().includes('/api/')) errors.push(`HTTP ${r.status()} ${new URL(r.url()).pathname}`) })
+    for (const path of ['/welcome', '/login']) {
+      await page.goto(path)
+      await page.waitForLoadState('networkidle')
+    }
+    expect(errors, errors.join('\n')).toEqual([])
+  })
+
   test('oturum açmadan korumalı sayfa açılmaz', async ({ page }) => {
     await page.goto('/tickets')
     await expect(page).toHaveURL(/\/login$/)
