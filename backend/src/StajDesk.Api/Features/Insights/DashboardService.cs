@@ -25,7 +25,7 @@ public class DashboardService(AppDbContext db, ITicketService tickets, LeaveServ
     private async Task<DashboardDto> BuildAsync(UserContext me, CancellationToken ct)
     {
         var now = clock.GetUtcNow().UtcDateTime;
-        var today = DateOnly.FromDateTime(now);
+        var today = BusinessTime.DateOf(now);
         var u = await db.Users.AsNoTracking().Include(x => x.JobTitle).Include(x => x.Department).Include(x => x.Manager).FirstAsync(x => x.Id == me.Id, ct);
         var profile = new DashboardProfile(u.FullName, u.JobTitle?.Name, u.Department?.Name, u.Manager?.FullName, u.HireDate,
             u.HireDate is { } h ? Math.Round((today.DayNumber - h.DayNumber) / 365.25, 1) : 0, me.Roles.ToList());
@@ -55,12 +55,13 @@ public class DashboardService(AppDbContext db, ITicketService tickets, LeaveServ
             var q = db.Tickets.AsNoTracking().Where(visible);
             var label = me.Has(Permissions.TicketsViewAll) || me.Has(Permissions.ReportsView) ? "Şirket geneli" : "Sorumlu olduğunuz birimler";
             var byStatus = await q.GroupBy(t => t.Status).Select(g => new { g.Key, C = g.Count() }).ToListAsync(ct);
-            var from = now.Date.AddDays(-13);
+            var firstDay = today.AddDays(-13);
+            var from = BusinessTime.StartOfDayUtc(firstDay);
             var created = await q.Where(t => t.CreatedAt >= from).Select(t => t.CreatedAt).ToListAsync(ct);
             var resolved = await q.Where(t => t.ResolvedAt != null).Select(t => new { t.CreatedAt, R = t.ResolvedAt!.Value, t.DueAt }).ToListAsync(ct);
             stats = new TicketStatsWidget(label,
                 Enum.GetValues<TicketStatus>().Select(s => new Count(s.ToString(), TicketRules.Label(s), byStatus.FirstOrDefault(x => x.Key == s)?.C ?? 0)).ToList(),
-                Enumerable.Range(0, 14).Select(i => from.AddDays(i)).Select(d => new TrendPoint(DateOnly.FromDateTime(d), created.Count(c => c.Date == d), resolved.Count(r => r.R.Date == d))).ToList(),
+                Enumerable.Range(0, 14).Select(i => firstDay.AddDays(i)).Select(d => new TrendPoint(d, created.Count(c => BusinessTime.DateOf(c) == d), resolved.Count(r => BusinessTime.DateOf(r.R) == d))).ToList(),
                 resolved.Count == 0 ? 100 : Math.Round(resolved.Count(r => r.R <= r.DueAt) * 100.0 / resolved.Count, 1),
                 resolved.Count == 0 ? 0 : Math.Round(resolved.Average(r => (r.R - r.CreatedAt).TotalHours), 1));
         }

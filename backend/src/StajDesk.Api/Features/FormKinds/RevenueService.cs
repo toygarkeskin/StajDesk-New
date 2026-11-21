@@ -13,6 +13,11 @@ public class RevenueService(AppDbContext db, TimeProvider clock) : FormKindHandl
     private DateTime Now => clock.GetUtcNow().UtcDateTime;
     public override IReadOnlyCollection<string> Kinds { get; } = [FormKinds.Revenue];
 
+    /// <summary>Büyük/küçük harf duyarsız, Türkçe (İ↔i, I↔ı) ve kültürden bağımsız eşleşmenin ikisini de kabul eder.</summary>
+    public static bool SameName(string a, string b) =>
+        string.Compare(a, b, WorkflowData.Tr, CompareOptions.IgnoreCase) == 0
+        || string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+
     /// <summary>Mağaza alanı, açık mağazalar listesinden seçilir (sunucu ayrıca doğrular).</summary>
     public override async Task<IReadOnlyList<FormField>> PrepareFieldsAsync(FormDefinition form, CancellationToken ct)
     {
@@ -31,10 +36,13 @@ public class RevenueService(AppDbContext db, TimeProvider clock) : FormKindHandl
         var data = ctx.Data;
         var tr = WorkflowData.Tr;
         var storeName = (data.GetValueOrDefault("storeName") as string)?.Trim() ?? "";
-        var store = await db.Stores.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == storeName.ToLower() && x.Status != StoreStatus.Closed, ct)
+        // Ad karşılaştırması bellekte, Türkçe kurallarla yapılır. Veritabanında lower() ile C#'taki ToLower() "İ" ve "I"
+        // harflerini farklı çevirdiği için İstanbul, İzmir, Isparta, Iğdır gibi mağazalar "bulunamadı" sayılıyordu.
+        var openStores = await db.Stores.AsNoTracking().Where(x => x.Status != StoreStatus.Closed).ToListAsync(ct);
+        var store = openStores.FirstOrDefault(x => SameName(x.Name, storeName))
                     ?? throw new ValidationAppException(new() { ["storeName"] = ["Mağaza bulunamadı veya kapalı. Lütfen listeden seçiniz."] });
         var date = DateOnly.Parse((string)data["date"]!, CultureInfo.InvariantCulture);
-        var today = DateOnly.FromDateTime(Now);
+        var today = BusinessTime.DateOf(Now);
         if (date > today) throw new ValidationAppException(new() { ["date"] = ["İleri tarihli ciro bildirimi yapılamaz."] });
         if (date < today.AddDays(-45)) throw new ValidationAppException(new() { ["date"] = ["45 günden eski ciro için Mağaza Muhasebesi ile iletişime geçiniz."] });
 
@@ -84,7 +92,7 @@ public class RevenueService(AppDbContext db, TimeProvider clock) : FormKindHandl
         var companyWide = me.IsAdmin || me.Has(Permissions.ReportsView)
                           || (me.Has(Permissions.FormsManage) && form.OwnerDepartmentId == me.DepartmentId)
                           || (form.OwnerDepartmentId is { } od && me.DepartmentId == od);
-        var to = DateOnly.FromDateTime(Now);
+        var to = BusinessTime.DateOf(Now);
         var from = to.AddDays(-(days - 1));
         var since = from.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
         var q = db.FormSubmissions.AsNoTracking().Where(x => x.FormDefinitionId == form.Id && WorkflowData.LiveStatuses.Contains(x.Status) && x.CreatedAt >= since);

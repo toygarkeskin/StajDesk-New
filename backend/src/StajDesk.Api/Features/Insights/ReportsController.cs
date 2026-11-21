@@ -24,7 +24,7 @@ public class ReportsController(ReportService reports) : ApiController
 
     [HasPermission(Permissions.ReportsView, Permissions.ReportsViewDepartment, Permissions.TicketsViewAll), HttpGet("tickets/export")]
     public async Task<IActionResult> Export([FromQuery] ReportFilter f, CancellationToken ct) =>
-        File(await reports.TicketsCsvAsync(f, Me, ct), "text/csv; charset=utf-8", $"talepler-{DateTime.Now:yyyyMMdd-HHmm}.csv");
+        File(await reports.TicketsCsvAsync(f, Me, ct), "text/csv; charset=utf-8", $"talepler-{BusinessTime.ToLocal(DateTime.UtcNow):yyyyMMdd-HHmm}.csv");
 
     [HasPermission(Permissions.ReportsView, Permissions.ReportsViewDepartment, Permissions.SubmissionsViewAll), HttpGet("workflows")]
     public async Task<IActionResult> Workflows([FromQuery] ReportFilter f, CancellationToken ct) => Ok(await reports.WorkflowsAsync(f, Me, ct));

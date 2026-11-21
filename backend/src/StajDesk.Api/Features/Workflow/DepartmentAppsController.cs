@@ -21,7 +21,7 @@ public class DepartmentAppsController(RevenueService revenue, ShiftService shift
     [HttpGet("shifts")]
     public async Task<IActionResult> Shifts([FromQuery] DateOnly? from, [FromQuery] DateOnly? to, CancellationToken ct = default)
     {
-        var start = from ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        var start = from ?? BusinessTime.Today();
         return Ok(await shifts.ChangesAsync(Me, start, to ?? start.AddDays(30), ct));
     }
 }

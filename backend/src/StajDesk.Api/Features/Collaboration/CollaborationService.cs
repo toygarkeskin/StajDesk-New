@@ -123,7 +123,7 @@ public class CollaborationService(AppDbContext db, IEventBus events, ICacheServi
     // ---------------- İş ilanları ----------------
     public Task<List<JobDto>> JobsAsync(bool activeOnly, bool publicOnly, CancellationToken ct)
     {
-        var today = DateOnly.FromDateTime(Now);
+        var today = BusinessTime.DateOf(Now);
         var q = db.JobPostings.AsNoTracking().AsQueryable();
         if (activeOnly) q = q.Where(j => j.IsActive && (j.ClosesAt == null || j.ClosesAt >= today));
         if (publicOnly) q = q.Where(j => j.IsPublic);
@@ -367,7 +367,7 @@ public class CollaborationService(AppDbContext db, IEventBus events, ICacheServi
 
     public Task<PagedResult<TaskDto>> TasksAsync(TaskQuery q, UserContext me, CancellationToken ct)
     {
-        var today = DateOnly.FromDateTime(Now);
+        var today = BusinessTime.DateOf(Now);
         var query = db.Tasks.AsNoTracking().AsQueryable();
         query = q.Scope switch
         {

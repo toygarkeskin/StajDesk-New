@@ -34,7 +34,7 @@ public sealed class TestWorld
 
     public AppDbContext Db { get; }
     public FakeEventBus Events { get; } = new();
-    public TimeProvider Clock { get; } = new FixedClock(Now);
+    public TimeProvider Clock { get; set; } = new FixedClock(Now);
     public Department Accounting { get; }
     public Department It { get; }
     public User Employee { get; }

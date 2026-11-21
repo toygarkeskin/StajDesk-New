@@ -39,7 +39,7 @@ public class DirectoryService(AppDbContext db, TimeProvider clock)
 
     public async Task<List<BirthdayEntry>> BirthdaysAsync(int days, CancellationToken ct)
     {
-        var today = DateOnly.FromDateTime(clock.GetUtcNow().UtcDateTime);
+        var today = BusinessTime.Today(clock.GetUtcNow());
         var people = await db.Users.AsNoTracking().Where(u => u.IsActive && u.BirthDate != null)
             .Select(u => new { u.Id, Name = u.FirstName + " " + u.LastName, Title = u.JobTitle == null ? null : u.JobTitle.Name, Dept = u.Department == null ? null : u.Department.Name, u.BirthDate })
             .ToListAsync(ct);

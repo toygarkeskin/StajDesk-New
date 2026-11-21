@@ -32,6 +32,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 30
+    # Docker yeniden açılınca altyapı da kendiliğinden kalksın (yoksa portal açılır ama veri gelmez)
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
@@ -45,6 +47,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 30
+    restart: unless-stopped
 
   rabbitmq:
     image: rabbitmq:4-management-alpine
@@ -58,6 +61,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 30
+    restart: unless-stopped
 
   seq:
     image: datalust/seq:2025.2
@@ -66,11 +70,13 @@ services:
       SEQ_FIRSTRUN_NOAUTHENTICATION: "true"
     ports: ["127.0.0.1:5342:80"]
     volumes: [seqdata:/data]
+    restart: unless-stopped
 
   # Geliştirme SMTP sunucusu: Worker'ın gönderdiği e-postalar burada görüntülenir (dışarıya e-posta gitmez).
   mailpit:
     image: axllent/mailpit:v1.27
     ports: ["127.0.0.1:8126:8025", "127.0.0.1:1126:1025"]
+    restart: unless-stopped
 
   api:
     build:

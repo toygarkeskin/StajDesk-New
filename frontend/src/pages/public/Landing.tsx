@@ -60,7 +60,7 @@ function BannerSlider({ banners }: { banners: Banner[] }) {
 function MarketStrip() {
   const market = useQuery({ queryKey: ['public-market'], queryFn: () => api.get<MarketData>('/public/market'), refetchInterval: 5 * 60_000 })
   const [city, setCity] = useState('istanbul')
-  const weather = useQuery({ queryKey: ['public-weather', city], queryFn: () => api.get<Weather | null>('/public/weather', { city }) })
+  const weather = useQuery({ queryKey: ['public-weather', city], queryFn: () => api.get<Weather | null>('/public/weather', { city }), refetchInterval: 10 * 60_000 })
   const icon = { USD: DollarSign, EUR: Euro, GRAM: Coins } as Record<string, typeof DollarSign>
   return (
     <section className="grid gap-4 lg:grid-cols-[1fr_1.1fr]">
@@ -123,7 +123,9 @@ function MarketStrip() {
 const YEAR = new Date().getFullYear()
 
 export default function Landing() {
-  const home = useQuery({ queryKey: ['public-home'], queryFn: () => api.get<PublicHome>('/public/home') })
+  // Canlı akış: yönetimde yapılan değişiklikler (banner, haber, ilan, etkinlik) sayfa açıkken en geç 1 dk içinde görünür.
+  // Sunucu önbelleği içerik değişince temizlenir; yenileme sırasında mevcut içerik ekranda kalır.
+  const home = useQuery({ queryKey: ['public-home'], queryFn: () => api.get<PublicHome>('/public/home'), refetchInterval: 60_000 })
   const d = home.data
   const stats = d ? [
     { label: 'Çalışan', value: d.stats.employees, icon: Users },

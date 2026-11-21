@@ -24,6 +24,9 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 
 ### Değişti
 
+- Tanıtım sayfası canlı: haber, banner, ilan ve etkinlikler dakikada bir, hava durumu 10 dakikada bir kendiliğinden yenilenir.
+- Bağımlılıklar güncellendi: 10 NuGet paketi, 8 GitHub Actions eylemi (küçük sürümler).
+
 - API, Domain ve Worker kodu özellik klasörlerine ayrıldı; her dosyada tek tip.
 
 ### Düzeltildi
@@ -33,6 +36,10 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr-TR/1.1.0/), sürüm numa
 - Yoğun saatlerde TCMB 6 saniyeden geç yanıt verince döviz kurları gösterilemiyordu; kur ve altın kaynakları artık aynı anda istenir.
 - Boş veritabanı doldurulurken EF Core sırasız `Take` uyarısı veriyordu.
 - Postman koleksiyonundaki örnek istekte gerçek bir mağaza adı geçiyordu.
+- Docker yeniden açıldığında PostgreSQL, Redis, RabbitMQ, Seq ve Mailpit kendiliğinden başlamıyordu; portal açılıyor ama veri gelmiyordu. Tüm servisler `restart: unless-stopped`.
+- "Bugün" bazı yerlerde UTC'ye göre hesaplanıyordu: gece 00:00-03:00 arası günün cirosu "ileri tarihli" sayılıyor, raporlar ve panodaki günlük grafikler günü 3 saat kaydırıyor, doğum günleri bir gün geç görünüyordu. Takvim günü artık her yerde Türkiye saatine göre (`BusinessTime`).
+- Adında "İ" ya da "I" geçen mağazalar (İstanbul, İzmir, Isparta, Iğdır…) ciro bildiremiyordu: veritabanı ve C# Türkçe harfleri farklı küçültüyordu. Eşleşme artık Türkçe kurallarla yapılıyor; uçtan uca test bu mağazaları öncelikli seçiyor.
+- Raporlar sayfasının varsayılan tarih aralığı gece 00:00-03:00 arası bir gün geriden başlıyordu.
 - Telefondan ağ adresiyle (HTTP) girişte oturum çerezi `Secure` olduğu için saklanmıyor, her yenilemede oturum düşüyordu. Geliştirme kurulumunda kapalı, HTTPS canlı katmanda zorunlu.
 
 ## [1.0.0] - 2026-11-15

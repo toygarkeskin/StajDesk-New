@@ -26,7 +26,7 @@ public class LeaveController(LeaveService leave) : ApiController
     [HttpGet("calendar")]
     public async Task<IActionResult> Calendar([FromQuery] DateOnly? from, [FromQuery] DateOnly? to, CancellationToken ct)
     {
-        var start = from ?? DateOnly.FromDateTime(DateTime.Today.AddDays(-7));
+        var start = from ?? BusinessTime.Today().AddDays(-7);
         return Ok(await leave.LeaveCalendarAsync(Me, start, to ?? start.AddDays(60), ct));
     }
 }

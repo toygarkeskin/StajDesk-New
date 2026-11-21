@@ -10,8 +10,8 @@ import { DepartmentOptions } from '@/components/DepartmentOptions'
 import type { AssetType, InventoryReport, PeopleReport, TicketReport, WorkflowReport } from '@/lib/types'
 import { useCan } from '@/store/auth'
 
-const today = new Date()
-const iso = (d: Date) => d.toISOString().slice(0, 10)
+/** Yerel takvim günü (toISOString UTC'ye çevirdiği için gece 00-03 arası bir önceki güne kayardı) */
+const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
 export default function Reports() {
   const { can } = useCan()
@@ -22,7 +22,11 @@ export default function Reports() {
     ...(can('reports.view', 'users.manage', 'leave.manage') ? [{ value: 'people', label: 'İnsan kaynakları' }] : []),
   ]
   const [tab, setTab] = useState(tabs[0]?.value ?? 'tickets')
-  const [f, setF] = useState({ from: iso(new Date(today.getTime() - 29 * 864e5)), to: iso(today), departmentId: '', categoryId: '', status: '' })
+  const [f, setF] = useState(() => {
+    const today = new Date()
+    const from = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29)
+    return { from: iso(from), to: iso(today), departmentId: '', categoryId: '', status: '' }
+  })
   const departments = useDepartments()
   const categories = useCategories()
   const params = { from: f.from, to: f.to, departmentId: f.departmentId || undefined, categoryId: f.categoryId || undefined, status: f.status || undefined }

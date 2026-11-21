@@ -42,7 +42,7 @@ public class SaveUserValidator : AbstractValidator<SaveUserRequest>
         RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Geçerli bir kurumsal e-posta adresi giriniz.").MaximumLength(200);
         RuleFor(x => x.DepartmentId).NotNull().WithMessage("Departman seçiniz.");
         RuleFor(x => x.Phone).MaximumLength(30);
-        RuleFor(x => x.BirthDate).LessThan(DateOnly.FromDateTime(DateTime.Today.AddYears(-15))).When(x => x.BirthDate.HasValue).WithMessage("Doğum tarihi geçersiz.");
+        RuleFor(x => x.BirthDate).LessThan(BusinessTime.Today().AddYears(-15)).When(x => x.BirthDate.HasValue).WithMessage("Doğum tarihi geçersiz.");
     }
 }
 
@@ -54,7 +54,7 @@ public class CreateAccountRequestValidator : AbstractValidator<CreateAccountRequ
         RuleFor(x => x.LastName).NotEmpty().WithMessage("Soyad zorunludur.").MaximumLength(60);
         RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Geçerli bir kurumsal e-posta adresi giriniz.");
         RuleFor(x => x.DepartmentId).GreaterThan(0).WithMessage("Departman seçiniz.");
-        RuleFor(x => x.StartDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today.AddDays(-30))).WithMessage("Başlangıç tarihi geçmişte olamaz.");
+        RuleFor(x => x.StartDate).GreaterThanOrEqualTo(BusinessTime.Today().AddDays(-30)).WithMessage("Başlangıç tarihi geçmişte olamaz.");
         RuleFor(x => x.Note).MaximumLength(1000);
     }
 }

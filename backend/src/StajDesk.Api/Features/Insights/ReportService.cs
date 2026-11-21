@@ -22,12 +22,13 @@ public class ReportService(AppDbContext db, AccessScope scope, TimeProvider cloc
 
     private (DateTime From, DateTime To, DateOnly F, DateOnly T) Range(ReportFilter f)
     {
-        var today = DateOnly.FromDateTime(clock.GetUtcNow().UtcDateTime);
+        var today = BusinessTime.Today(clock.GetUtcNow());
         var to = f.To ?? today;
         var from = f.From ?? to.AddDays(-29);
         if (from > to) (from, to) = (to, from);
         if (to.DayNumber - from.DayNumber > 366) from = to.AddDays(-366);
-        return (from.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc), to.ToDateTime(TimeOnly.MaxValue, DateTimeKind.Utc), from, to);
+        // Gün sınırları Türkiye saatine göre: "bugün" gece yarısından (TR) başlar
+        return (BusinessTime.StartOfDayUtc(from), BusinessTime.StartOfDayUtc(to.AddDays(1)).AddTicks(-1), from, to);
     }
 
     /// <summary>Rapor kapsamı: şirket geneli rapor yetkisi veya tüm talep yetkisi yoksa yalnızca sorumlu olunan departmanlar.</summary>
@@ -77,7 +78,7 @@ public class ReportService(AppDbContext db, AccessScope scope, TimeProvider cloc
             rows.GroupBy(r => (r.Cat, r.CatColor)).Select(g => new Count(g.Key.Cat, g.Key.Cat, g.Count(), g.Key.CatColor)).OrderByDescending(c => c.Value).ToList(),
             rows.GroupBy(r => r.Dept).Select(g => new Count(g.Key, g.Key, g.Count())).OrderByDescending(c => c.Value).Take(15).ToList(),
             rows.GroupBy(r => r.Group).Select(g => new Count(g.Key, g.Key, g.Count())).OrderByDescending(c => c.Value).ToList(),
-            days.Select(d => new TrendPoint(d, rows.Count(r => DateOnly.FromDateTime(r.CreatedAt) == d), resolved.Count(r => DateOnly.FromDateTime(r.ResolvedAt!.Value) == d))).ToList(),
+            days.Select(d => new TrendPoint(d, rows.Count(r => BusinessTime.DateOf(r.CreatedAt) == d), resolved.Count(r => BusinessTime.DateOf(r.ResolvedAt!.Value) == d))).ToList(),
             aging.Select(a => new Count(a.Key, a.Label, active.Count(r => a.Match((now - r.CreatedAt).TotalDays)))).ToList(),
             rows.Where(r => r.AssigneeId != null).GroupBy(r => (r.AssigneeId!.Value, r.Agent!)).Select(g =>
             {
@@ -141,13 +142,13 @@ public class ReportService(AppDbContext db, AccessScope scope, TimeProvider cloc
                 g.Count(r => r.Status == SubmissionStatus.Approved), g.Count(r => r.Status == SubmissionStatus.Rejected), g.Count(r => r.Status == SubmissionStatus.Completed),
                 AvgHours(g.Cast<dynamic>()))).OrderByDescending(x => x.Total).ToList(),
             rows.GroupBy(r => r.Dept).Select(g => new Count(g.Key, g.Key, g.Count())).OrderByDescending(x => x.Value).Take(15).ToList(),
-            days.Select(day => new TrendPoint(day, rows.Count(r => DateOnly.FromDateTime(r.CreatedAt) == day),
-                rows.Count(r => r.Finished is { } fin && DateOnly.FromDateTime(fin) == day && r.Status != SubmissionStatus.Pending))).ToList());
+            days.Select(day => new TrendPoint(day, rows.Count(r => BusinessTime.DateOf(r.CreatedAt) == day),
+                rows.Count(r => r.Finished is { } fin && BusinessTime.DateOf(fin) == day && r.Status != SubmissionStatus.Pending))).ToList());
     }
 
     public async Task<InventoryReport> InventoryAsync(CancellationToken ct)
     {
-        var today = DateOnly.FromDateTime(clock.GetUtcNow().UtcDateTime);
+        var today = BusinessTime.Today(clock.GetUtcNow());
         var rows = await db.Assets.AsNoTracking().Select(a => new { a.Type, a.Status, Dept = a.Department == null ? "Belirtilmemiş" : a.Department.Name, a.PurchaseCost }).ToListAsync(ct);
         var expiring = await db.Assets.AsNoTracking().Where(a => a.WarrantyEndsAt != null && a.WarrantyEndsAt >= today && a.WarrantyEndsAt <= today.AddDays(90))
             .OrderBy(a => a.WarrantyEndsAt).Take(20).Select(a => new AssetDto(a.Id, a.Name, a.AssetTag, a.Type, a.Status, a.Manufacturer, a.Model, a.SerialNumber,
@@ -163,7 +164,7 @@ public class ReportService(AppDbContext db, AccessScope scope, TimeProvider cloc
 
     public async Task<PeopleReport> PeopleAsync(CancellationToken ct)
     {
-        var since = DateOnly.FromDateTime(clock.GetUtcNow().UtcDateTime.AddDays(-90));
+        var since = BusinessTime.Today(clock.GetUtcNow()).AddDays(-90);
         var rows = await db.Users.AsNoTracking().Select(u => new { u.IsActive, u.EmploymentType, u.HireDate, u.MustChangePassword, Dept = u.Department == null ? "Belirtilmemiş" : u.Department.Name, Type = u.Department == null ? (DepartmentType?)null : u.Department.Type }).ToListAsync(ct);
         var active = rows.Where(r => r.IsActive).ToList();
         return new PeopleReport(active.Count, rows.Count - active.Count,

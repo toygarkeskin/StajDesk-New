@@ -140,8 +140,8 @@ public class UserService(AppDbContext db, IPasswordHasher<User> hasher, IEventBu
         user.PasswordHash = hasher.HashPassword(user, tempPassword);
         await SetRolesInternalAsync(user, [RoleCodes.Employee], actor, ct);
         db.Users.Add(user);
-        var entitlement = LeaveRules.AnnualEntitlement(r.StartDate, DateOnly.FromDateTime(DateTime.UtcNow));
-        db.LeaveBalances.Add(new LeaveBalance { User = user, Year = DateTime.UtcNow.Year, Entitled = entitlement });
+        var entitlement = LeaveRules.AnnualEntitlement(r.StartDate, BusinessTime.Today());
+        db.LeaveBalances.Add(new LeaveBalance { User = user, Year = BusinessTime.Today().Year, Entitled = entitlement });
         return user;
     }
 

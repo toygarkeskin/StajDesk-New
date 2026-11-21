@@ -136,7 +136,10 @@ test.describe('İş akışları (uçtan uca)', () => {
     for (let attempt = 0; ; attempt++) {
       const d = new Date()
       d.setDate(d.getDate() - 1 - Math.floor(Math.random() * 40))
-      await store.selectOption(options[Math.floor(Math.random() * options.length)])
+      // Öncelik İ/I ile başlayan mağazalar: Türkçe büyük/küçük harf eşleşmesi gerçek veritabanında sınansın
+      const turkish = options.filter((o) => /^[İI]/.test(o.trim()))
+      const pool = attempt % 2 === 0 && turkish.length ? turkish : options
+      await store.selectOption(pool[Math.floor(Math.random() * pool.length)])
       await page.getByLabel(/^Tarih/).fill(iso(d))
       await page.getByLabel(/^Nakit/).fill('100')
       await page.getByLabel(/^Kredi kartı/).fill('200')

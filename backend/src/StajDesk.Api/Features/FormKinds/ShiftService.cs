@@ -21,7 +21,7 @@ public class ShiftService(AppDbContext db, LeaveService leave, TimeProvider cloc
     {
         var (data, me) = (ctx.Data, ctx.Me);
         var date = DateOnly.Parse((string)data["date"]!, CultureInfo.InvariantCulture);
-        var today = DateOnly.FromDateTime(Now);
+        var today = BusinessTime.DateOf(Now);
         if (date < today) throw new ValidationAppException(new() { ["date"] = ["Geçmiş tarih için vardiya değişikliği talep edilemez."] });
         if (date > today.AddDays(60)) throw new ValidationAppException(new() { ["date"] = ["En fazla 60 gün sonrası için talep oluşturabilirsiniz."] });
         var from = data.GetValueOrDefault("currentShift") as string;

@@ -29,7 +29,7 @@ public class InventoryService(AppDbContext db, IEventBus events, TimeProvider cl
         if (q.AssignedToId is { } u) query = query.Where(a => a.AssignedToId == u);
         if (q.WarrantyExpiring == true)
         {
-            var today = DateOnly.FromDateTime(Now);
+            var today = BusinessTime.DateOf(Now);
             query = query.Where(a => a.WarrantyEndsAt != null && a.WarrantyEndsAt >= today && a.WarrantyEndsAt <= today.AddDays(90));
         }
         if (!string.IsNullOrWhiteSpace(q.Search))
@@ -120,7 +120,7 @@ public class InventoryService(AppDbContext db, IEventBus events, TimeProvider cl
 
     public Task<List<LicenseDto>> LicensesAsync(CancellationToken ct)
     {
-        var today = DateOnly.FromDateTime(Now);
+        var today = BusinessTime.DateOf(Now);
         return db.SoftwareLicenses.AsNoTracking().OrderBy(l => l.Name).Select(l => new LicenseDto(l.Id, l.Name, l.Vendor, l.Version, l.Seats, l.Installations.Count,
             l.ExpiresAt, l.Cost, l.Notes, l.ExpiresAt != null && l.ExpiresAt < today)).ToListAsync(ct);
     }

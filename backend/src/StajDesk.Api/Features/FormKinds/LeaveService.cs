@@ -76,7 +76,7 @@ public class LeaveService(AppDbContext db, TimeProvider clock, ILogger<LeaveServ
         var end = DateOnly.Parse((string)data["endDate"]!, CultureInfo.InvariantCulture);
         var type = LeaveRules.Parse(data["leaveType"] as string) ?? throw AppException.BadRequest("Geçersiz izin türü.");
         if (end < start) throw new ValidationAppException(new() { ["endDate"] = ["Bitiş tarihi başlangıçtan önce olamaz."] });
-        if (start < DateOnly.FromDateTime(Now).AddDays(-30)) throw new ValidationAppException(new() { ["startDate"] = ["30 günden eski tarihli izin girilemez."] });
+        if (start < BusinessTime.DateOf(Now).AddDays(-30)) throw new ValidationAppException(new() { ["startDate"] = ["30 günden eski tarihli izin girilemez."] });
         var days = LeaveRules.WorkingDays(start, end);
         if (days == 0) throw new ValidationAppException(new() { ["endDate"] = ["Seçilen aralıkta iş günü bulunmuyor (hafta sonu / resmî tatil)."] });
 
@@ -104,7 +104,7 @@ public class LeaveService(AppDbContext db, TimeProvider clock, ILogger<LeaveServ
     public override async Task OnApprovedAsync(FormSubmission s, Dictionary<string, JsonElement> data, CancellationToken ct)
     {
         if (LeaveRules.Parse(data.GetValueOrDefault("leaveType").ToString()) != LeaveType.Annual || !data.TryGetValue("days", out var d)) return;
-        var year = (WorkflowData.DateOf(data, "startDate") ?? DateOnly.FromDateTime(Now)).Year;
+        var year = (WorkflowData.DateOf(data, "startDate") ?? BusinessTime.DateOf(Now)).Year;
         var balance = await db.LeaveBalances.FirstOrDefaultAsync(b => b.UserId == s.SubmitterId && b.Year == year, ct);
         if (balance is null) db.LeaveBalances.Add(balance = new LeaveBalance { UserId = s.SubmitterId, Year = year });
         balance.Used += d.GetDecimal();
